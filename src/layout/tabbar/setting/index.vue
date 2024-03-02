@@ -1,12 +1,12 @@
 <template>
   <!-- 顶部右侧静态 -->
-  <el-button type="primary" size="small" icon="Refresh" circle></el-button>
+  <!-- <el-button type="primary" size="small" icon="Refresh" circle></el-button>
   <el-button type="primary" size="small" icon="FullScreen" circle></el-button>
 
-  <el-button type="primary" size="small" icon="Setting" circle></el-button>
+  <el-button type="primary" size="small" icon="Setting" circle></el-button> -->
   <img
     :src="userStore.avatar"
-    style="width: 24px; height: 24px"
+    style="width: 30px; height: 30px; margin: 0px 20px; border-radius: 100%"
     margin="0px 10px"
     border-radius="50%"
   />
