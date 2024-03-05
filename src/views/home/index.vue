@@ -22,8 +22,20 @@
 
 <template>
   <div>
-    <el-card class="box-card" style="height: 280px">
-      <div ref="chartRef" style="height: 280px"></div>
+    <el-card class="tutorial-bar" style="height: 260px">
+      <div style="height: 260px">
+        <div class="box" style="">
+          <!-- <el-card style="height: 260px; width: 260px">
+          <div ref="chartRef" style="height: 260px"></div>
+        </el-card> -->
+
+          <img :src="userStore.avatar" alt="" class="avatar" />
+          <div>
+            <h3 class="title">{{ getTime() }} {{ userStore.username }}</h3>
+            <h1 class="bottom">国产云桌面管理系统</h1>
+          </div>
+        </div>
+      </div>
     </el-card>
   </div>
 
@@ -40,10 +52,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import * as echarts from "echarts";
+import useUserStore from "@/store/modules/user";
+import { getTime } from "@/utils/time";
 
 const chartRef = ref<null | HTMLDivElement>(null);
 const usechart = ref<null | HTMLDivElement>(null);
 const userchartone = ref<null | HTMLDivElement>(null);
+
+let userStore = useUserStore();
+
 onMounted(() => {
   if (chartRef.value) {
     const chart = echarts.init(chartRef.value);
@@ -129,13 +146,47 @@ const options3 = {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.tutorial-bar {
+  margin: 0 10px;
+  padding: 5px 7px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+  justify-content: space-between;
+}
+
 .gragh {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
   .el-card {
     width: 48%;
+    margin: 0 10px;
+    padding: 5px 7px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+    justify-content: space-between;
+  }
+}
+
+.box {
+  display: flex;
+  margin-left: 20px;
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+
+  .title {
+    font-size: 25px;
+    margin-bottom: 30px;
+  }
+  .bottom {
+    font-size: italic;
+    color: rgb(193, 208, 246);
   }
 }
 </style>

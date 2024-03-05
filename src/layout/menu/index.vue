@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <p>{{menuList}}</p> -->
+    <!-- <p>{{ menuList }}</p> -->
     <template v-for="(item, index) in menuList" :key="item.path">
       <template v-if="!item.meta.hidden">
         <!-- 没有子路由 -->

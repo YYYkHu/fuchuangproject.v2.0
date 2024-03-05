@@ -9,12 +9,12 @@ export interface ResponseData {
 export interface User {
   id?: number; //加？表示可有可无
   username?: string;
-  updateTime: string;
-  createTime: string;
+  updateTime?: string;
+  createTime?: string;
   password?: string;
   name?: string;
-  phone: string;
-  roleName: string;
+  phone?: string;
+  roleName?: string;
 }
 
 export type Records = User[];
