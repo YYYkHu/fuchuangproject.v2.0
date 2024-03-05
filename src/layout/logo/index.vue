@@ -1,7 +1,7 @@
 <template>
   <div class="logo" v-if="setting.logoHidden">
     <img :src="setting.logo" alt="" />
-    <p>{{ setting.title }}</p>
+    <p class="title">{{ setting.title }}</p>
   </div>
 </template>
 
@@ -29,6 +29,12 @@ export default { name: "Logo" };
   p {
     margin-left: 10px;
     font-size: $base-menu-title-size;
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-align: center;
+    color: black;
+    font-family: "Nunito", sans-serif;
   }
 }
 </style>

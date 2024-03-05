@@ -23,7 +23,6 @@
               type="password"
               :prefix-icon="Lock"
               v-model="loginForm.password"
-              show-password
             ></el-input>
           </el-form-item>
           <el-form-item>
