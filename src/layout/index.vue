@@ -35,7 +35,6 @@
 
           <div class="img">
             <img :src="Settings" alt="" class="img-svg" />
-            <p class="img-title">设置</p>
           </div>
         </el-scrollbar>
       </div>
@@ -102,12 +101,6 @@ export default {
   background-color: rgb(238, 236, 255);
 
   // 菜单栏样式
-  .el-menu-vertical-demo {
-    background: $base-menu-background;
-    font-weight: 540;
-    font-size: 26px;
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  }
 
   // background: #f0f2f5;
 
@@ -129,19 +122,21 @@ export default {
 
       .el-menu {
         border-right: none;
+        background: $base-menu-background;
+        font-weight: 540;
+        font-size: 26px;
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
       }
 
       .img {
         border-radius: 20px;
         width: 40px;
         height: 40px;
-        top: 100px;
+        margin-left: 30px;
+        margin-top: 580px;
         .img-svg {
           width: 90%;
           height: 90%;
-          float: left;
-        }
-        .img-title {
           float: left;
         }
       }

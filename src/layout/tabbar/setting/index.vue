@@ -4,13 +4,15 @@
   <el-button type="primary" size="small" icon="FullScreen" circle></el-button>
 
   <el-button type="primary" size="small" icon="Setting" circle></el-button> -->
-  <el-tooltip slot#content="getUserThing()" placement="bottom" effect="light">
-    <img
-      :src="userStore.avatar"
-      style="width: 40px; height: 40px; margin: 0px 20px; border-radius: 100%"
-      border-radius="50%"
-    />
-  </el-tooltip>
+  <img
+    :src="userStore.avatar"
+    style="width: 40px; height: 40px; margin: 0px 20px; border-radius: 100%"
+    border-radius="50%"
+  />
+  <!-- <el-tooltip placement="top">
+    <div slot="content">多行信息<br />第二行信息</div>
+    <el-button>Top center</el-button>
+  </el-tooltip> -->
   <!-- 下拉菜单 -->
   <el-dropdown>
     <span class="el-dropdown-link">
