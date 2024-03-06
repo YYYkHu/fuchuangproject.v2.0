@@ -1,53 +1,64 @@
 <template>
-  <div class="login_container">
-    <particles number="59" />
-    <el-row>
-      <el-col :span="12" :xs="0"></el-col>
-      <el-col :span="12" :xs="24" class="register">
-        <el-form
-          class="login_form"
-          :model="loginForm"
-          :rules="rules"
-          ref="loginForms"
-        >
-          <h1>Hello</h1>
-          <h2>脆脆鲨</h2>
-          <el-form-item prop="username">
-            <el-input
-              :prefix-icon="User"
-              v-model="loginForm.username"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input
-              type="password"
-              :prefix-icon="Lock"
-              v-model="loginForm.password"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              :loading="loading"
-              class="login_button"
-              type="primary"
-              size="default"
-              @click="login"
-              >登录</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
+ <div class="body">
+  <div class="cont" ref="cont">
+    <div class="form sign-in"  ref="loginForms">
+      <h2>Sign In</h2>
+      <label>
+        <span>Name</span>
+        <input type="name" name="name" v-model="loginForm.username">
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" name="password" v-model="loginForm.password">
+      </label>
+      <button class="submit" type="button" @click="login">登录</button>
+      <p class="forgot-pass">Forgot Password ?</p>
+    </div>
+
+    <div class="sub-cont">
+      <div class="img">
+        <div class="img-text m-up">
+          <h2>New here?</h2>
+          <p>Sign up and discover great amount of new opportunities!</p>
+        </div>
+        <div class="img-text m-in">
+          <h2>One of us?</h2>
+          <p>If you already has an account, just sign in. We've missed you!</p>
+        </div>
+        <div class="img-btn" @click="switchPage()">
+          <span class="m-up">Sign Up</span>
+          <span class="m-in">Sign In</span>
+        </div>
+      </div>
+      <div class="form sign-up" ref="registForms">
+        <h2>Sign Up</h2>
+        <label>
+          <span>Name</span>
+          <input type="text" v-model="registForm.username">
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" v-model="registForm.password">
+        </label>
+        <label>
+          <span>Confirm Password</span>
+          <input type="password" v-model="registForm.confirmPassword">
+        </label>
+        <button type="button" class="submit" @click="regist">注册</button>
+      </div>
+    </div>
   </div>
+</div>
+  
 </template>
 
-<script setup lang="ts">
-import { User, Lock } from "@element-plus/icons-vue";
+<script lang="ts">
+import '@/views/login/style.css'
+
 // 引入用户相关的仓库
 import useLoginStore from "@/store/modules/user";
 let userStore = useLoginStore();
-// 收集表单数组
-import { reactive, ref } from "vue";
+
 // 消息提示
 import { ElNotification } from "element-plus";
 // 引入路由
@@ -56,27 +67,37 @@ import { useRouter, useRoute } from "vue-router";
 let $route = useRoute();
 // 引入获取当前时间的函数``````````````
 import { getTime } from "@/utils/time";
-// 获取le-from元素
-let loginForms = ref();
 // 获取路由组件
 let $router = useRouter();
-// 定义一个加载效果
-let loading = ref(false);
 
-let loginForm = reactive({
-  username: "admin",
-  password: "111111",
-});
-
-// 登录功能实现
-const login = async () => {
+export default {
+  data(){
+    return {
+      loading:false,
+      loginForm :{
+        username: "",
+        password: ""
+      },
+      registForm :{
+        username: "",
+        password: "",
+        confirmPassword:""
+      }
+    }
+  },
+  methods: {
+    switchPage () {
+    this.$refs.cont.classList.toggle('signUp')
+  },
+  // 登录功能实现
+  async login () {
   // 验证表单是否通过验证，如果通过验证，则执行登录操作，否则不执行登录操作。
-  await loginForms.value.validate();
+  await this.validate();
   // 开启加载效果
-  loading.value = true;
+  this.loading = true;
   try {
     // 登陆成功
-    await userStore.userLogin(loginForm);
+    await userStore.userLogin(this.loginForm);
     // 编程式导航跳转到展示数据首页
     // 判断是否包含redirect参数，如果包含，则跳转到redirect参数指定的页面，否则跳转到首页
     let redirect: any = $route.query.redirect as string;
@@ -88,88 +109,85 @@ const login = async () => {
       title: `Hi,${getTime()}`,
     });
     // 关闭加载效果
-    loading.value = false;
+    this.loading = false;
   } catch (error) {
     // 关闭加载效果
-    loading.value = false;
+    this.loading = false;
     //登陆失败的提示信息
     ElNotification({
       type: "error",
       message: (error as Error).message,
     });
   }
-};
-
-const validatorUsername = (_rule: any, value: any, callback: any) => {
-  // rules表示当前的校验规则对象
-  // value表示当前要校验的字段值，即本框中的内容
-  // 函数：如果校验通过，则调用callback()，如果校验不通过，则调用callback()并传入错误提示信息
-  if (value.length >= 5) {
-    callback();
+},
+validate(){
+  if (this.loginForm.username.length < 3) {
+    ElNotification({
+      type: "error",
+      message: (new Error("用户名长度至少为3位") as Error).message,
+    });
+  } else if (this.loginForm.password.length < 6){
+    ElNotification({
+      type: "error",
+      message: (new Error("密码长度至少为6位") as Error).message,
+    });
   } else {
-    callback(new Error("用户名长度至少为5位"));
+    return;
   }
-};
-
-const validatorPassword = (_rule: any, value: any, callback: any) => {
-  // rules表示当前的校验规则对象
-  // value表示当前要校验的字段值，即本框中的内容
-  // 函数：如果校验通过，则调用callback()，如果校验不通过，则调用callback()并传入错误提示信息
-  if (value.length >= 6) {
-    callback();
-  } else {
-    callback(new Error("密码长度至少为6位"));
+},
+// 注册功能实现
+async regist() {
+  // 验证表单是否通过验证，如果通过验证，则执行注册操作，否则不执行注册操作。
+  await this.validateRegist();
+  // 开启加载效果
+  this.loading = true;
+  try {
+    // 登陆成功
+    await userStore.userRegist(this.loginForm);
+    // 弹出提示信息
+    ElNotification({
+      type: "success",
+      message: "注册成功",
+      title: `Hi,${getTime()}`,
+    });
+    // 关闭加载效果
+    this.loading = false;
+  } catch (error) {
+    // 关闭加载效果
+    this.loading = false;
+    //登陆失败的提示信息
+    ElNotification({
+      type: "error",
+      message: (error as Error).message,
+    });
   }
-};
-
-// 定义表单校验需要的配置对象
-const rules = {
-  username: [
-    // {required:true,message:'用户名不能为空',trigger:'blur'},
-    { trigger: "change", validator: validatorUsername },
-  ],
-  password: [
-    // { required: true, min: 6, max: 10, message: '账号长度至少六位', trigger: 'change' }
-    { trigger: "change", validator: validatorPassword },
-  ],
-};
-</script>
-
-<style scoped lang="scss">
-.login_container {
-  width: 100%;
-  height: 100vh;
-  // background: url('@/assets/images/img_denglu_bj.jpg') no-repeat center center;
-  background-size: cover;
-  background-color: #2b2f4b;
-  .register {
-    position: relative;
-    width: 80%;
-    top: 0vh;
-    background-color: rgb(194, 32, 94);
-    background-size: rover;
-    margin: 20%;
-    padding: 1%;
-    left: 25%;
-    .login_form {
-      position: relative;
-      width: 60%;
-      background-color: rgb(75, 123, 5);
-      background-size: rover;
-      padding: 1%;
-      h1 {
-        color: white;
-        font-size: 40px;
-      }
-      h2 {
-        font-size: 20px;
-        color: white;
-        margin: 20px 0px;
-      }
-      .login_button {
-        width: 100%;
-      }
-    }
+},
+validateRegist(){
+  if (this.registForm.username.length < 3) {
+    console.log(this.registForm.username)
+    ElNotification({
+      type: "error",
+      message: (new Error("用户名长度至少为3位") as Error).message,
+    });
+  } else if (this.registForm.password.length < 6){
+    ElNotification({
+      type: "error",
+      message: (new Error("密码长度至少为6位") as Error).message,
+    });
+  } else if (this.registForm.password!==this.registForm.confirmPassword){
+    ElNotification({
+      type: "error",
+      message: (new Error("确认密码错误") as Error).message,
+    });
+  }else {
+    return;
   }
 }
+  }
+}
+
+</script>
+
+<style>
+
 </style>

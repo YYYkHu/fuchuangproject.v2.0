@@ -1,11 +1,13 @@
 // 创建用户相关的小仓库
 import { defineStore } from "pinia";
 // 引入接口
-import { reqLogin, reqUserInfo, reqLogout } from "@/api/user";
+import { reqLogin, reqUserInfo, reqLogout, reqRegister } from "@/api/user";
 // 引入数据类型
 import type {
   loginFormData,
   loginResponseData,
+  registerFormData,
+  registerResponseData,
   userInfoResponseData,
 } from "@/api/user/type";
 
@@ -57,6 +59,24 @@ let useUserStore = defineStore("User", {
         return "ok";
       } else {
         return Promise.reject(new Error(result.message));
+      }
+    },
+    async userRegist(data: registerFormData) {
+      //  登录请求
+      let result: registerResponseData = await reqRegister(data);
+      // 登陆成功200 ->
+      console.log(result);
+      // 登陆失败:201 提示错误信息
+      if (result.code === 200) {
+        //由于pinia存储数据利用的是js对象
+        // console.log(result.data);
+        this.token = result.data as string; //仓库中存储token
+        // 本地存储持久化
+        SET_TOKEN(result.data as string);
+        // 返回一个成功的primise
+        return "ok";
+      } else {
+        return Promise.reject(new Error(result.data));
       }
     },
     // 退出登陆的方法
