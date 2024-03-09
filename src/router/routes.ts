@@ -53,12 +53,12 @@ export const constantRoutes = [
     },
   },
   {
-    // 用户管理
+    // 个人主页
     path: "/acl",
     component: () => import("@/layout/index.vue"),
     name: "Acl",
     meta: {
-      title: "用户管理",
+      title: "个人主页",
       hidden: false,
       icon: "Lock",
     },
@@ -68,7 +68,7 @@ export const constantRoutes = [
         component: () => import("@/views/user/index.vue"),
         name: "User",
         meta: {
-          title: "用户管理",
+          title: "个人主页",
           hidden: false,
           icon: "User",
         },

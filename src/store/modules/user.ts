@@ -25,7 +25,6 @@ let useUserStore = defineStore("User", {
       token: GET_TOKEN(), //用户的唯一标识
       menuRoutes: constantRoutes, // 仓库生成菜单需要的数组（路由）
       username: "", //用户姓名
-      avatar: "", //用户头像
     };
   },
   //   发送异步逻辑的地方
@@ -37,10 +36,11 @@ let useUserStore = defineStore("User", {
       // 登陆成功200 ->
       console.log(result);
       // 登陆失败:201 提示错误信息
-      if (result.code === 200) {
+      if (result.code === 0) {
         //由于pinia存储数据利用的是js对象
         // console.log(result.data);
         this.token = result.data as string; //仓库中存储token
+        console.log("token:" + this.token);
         // 本地存储持久化
         SET_TOKEN(result.data as string);
         // 返回一个成功的primise
@@ -53,9 +53,8 @@ let useUserStore = defineStore("User", {
     async userInfo() {
       // 获取存储到仓库中
       let result: userInfoResponseData = await reqUserInfo();
-      if (result.code === 200) {
+      if (result.code === 0) {
         this.username = result.data.name;
-        this.avatar = result.data.avatar;
         return "ok";
       } else {
         return Promise.reject(new Error(result.message));
@@ -67,13 +66,7 @@ let useUserStore = defineStore("User", {
       // 登陆成功200 ->
       console.log(result);
       // 登陆失败:201 提示错误信息
-      if (result.code === 200) {
-        //由于pinia存储数据利用的是js对象
-        // console.log(result.data);
-        this.token = result.data as string; //仓库中存储token
-        // 本地存储持久化
-        SET_TOKEN(result.data as string);
-        // 返回一个成功的primise
+      if (result.code === 0) {
         return "ok";
       } else {
         return Promise.reject(new Error(result.data));
@@ -82,13 +75,13 @@ let useUserStore = defineStore("User", {
     // 退出登陆的方法
     async userLogout() {
       let result: any = await reqLogout();
-      if (result.code === 200) {
+      if (result.code === 0) {
         // 退出成功
         // 清除仓库中的数据
         this.token = "";
         this.username = "";
-        this.avatar = "";
         REMOVE_TOKEN();
+        console.log("logout");
         return "ok";
       } else {
         return Promise.reject(new Error(result.message));

@@ -100,7 +100,7 @@ export default {
     await userStore.userLogin(this.loginForm);
     // 编程式导航跳转到展示数据首页
     // 判断是否包含redirect参数，如果包含，则跳转到redirect参数指定的页面，否则跳转到首页
-    let redirect: any = $route.query.redirect as string;
+    let redirect: any = this.$route.query.redirect as string;
     $router.push({ path: redirect ? redirect : "/" });
     // 弹出提示信息
     ElNotification({
