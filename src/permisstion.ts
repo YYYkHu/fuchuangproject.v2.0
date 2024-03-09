@@ -29,7 +29,7 @@ router.beforeEach(async (to: any, from: any, next: any) => {
   if (token) {
     // 登陆成功,不能访问login
     if (to.path == "/login") {
-      next({ path: "/" });
+      next({ path: "/acl/user" });
     } else {
       // 登录访问其他路由
       // 用户已经登录

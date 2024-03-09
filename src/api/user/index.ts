@@ -28,10 +28,10 @@ import type {
 } from "./type";
 // 项目用户请求的地址
 enum API {
-  LOGIN_URL = "/login",
-  USERINFO_URL = "/admin/acl/index/info",
-  REGISTER_URL = "/register",
-  LOGOUT_URL = "/admin/acl/index/logout",
+  LOGIN_URL = "/user/login",
+  USERINFO_URL = "/user/userInfo",
+  REGISTER_URL = "/user/register",
+  LOGOUT_URL = "/user/logout",
 }
 
 // 登录接口
@@ -41,7 +41,7 @@ export const reqLogin = (data: loginFormData) =>
 export const reqUserInfo = () =>
   request.get<any, userInfoResponseData>(API.USERINFO_URL);
 // 退出登录`
-export const reqLogout = () => request.post<any, any>(API.LOGOUT_URL);
+export const reqLogout = () => request.get<any, any>(API.LOGOUT_URL);
 //注册
 export const reqRegister = (data: registerFormData) =>
   request.post<any, registerResponseData>(API.REGISTER_URL, data);

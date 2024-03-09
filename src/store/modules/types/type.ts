@@ -7,5 +7,4 @@ export interface UserState {
   menuRoutes: RouteRecordRaw[];
   //用户信息
   username: string;
-  avatar: string;
 }

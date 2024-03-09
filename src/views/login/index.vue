@@ -87,105 +87,106 @@ export default {
     };
   },
   methods: {
-    switchPage() {
-      this.$refs.cont.classList.toggle("signUp");
-    },
-    // 登录功能实现
-    async login() {
-      // 验证表单是否通过验证，如果通过验证，则执行登录操作，否则不执行登录操作。
-      await this.validate();
-      // 开启加载效果
-      this.loading = true;
-      try {
-        // 登陆成功
-        await userStore.userLogin(this.loginForm);
-        // 编程式导航跳转到展示数据首页
-        // 判断是否包含redirect参数，如果包含，则跳转到redirect参数指定的页面，否则跳转到首页
-        let redirect: any = $route.query.redirect as string;
-        $router.push({ path: redirect ? redirect : "/" });
-        // 弹出提示信息
-        ElNotification({
-          type: "success",
-          message: "欢迎回来",
-          title: `Hi,${getTime()}`,
-        });
-        // 关闭加载效果
-        this.loading = false;
-      } catch (error) {
-        // 关闭加载效果
-        this.loading = false;
-        //登陆失败的提示信息
-        ElNotification({
-          type: "error",
-          message: (error as Error).message,
-        });
-      }
-    },
-    validate() {
-      if (this.loginForm.username.length < 3) {
-        ElNotification({
-          type: "error",
-          message: (new Error("用户名长度至少为3位") as Error).message,
-        });
-      } else if (this.loginForm.password.length < 6) {
-        ElNotification({
-          type: "error",
-          message: (new Error("密码长度至少为6位") as Error).message,
-        });
-      } else {
-        return;
-      }
-    },
-    // 注册功能实现
-    async regist() {
-      // 验证表单是否通过验证，如果通过验证，则执行注册操作，否则不执行注册操作。
-      await this.validateRegist();
-      // 开启加载效果
-      this.loading = true;
-      try {
-        // 登陆成功
-        await userStore.userRegist(this.loginForm);
-        // 弹出提示信息
-        ElNotification({
-          type: "success",
-          message: "注册成功",
-          title: `Hi,${getTime()}`,
-        });
-        // 关闭加载效果
-        this.loading = false;
-      } catch (error) {
-        // 关闭加载效果
-        this.loading = false;
-        //登陆失败的提示信息
-        ElNotification({
-          type: "error",
-          message: (error as Error).message,
-        });
-      }
-    },
-    validateRegist() {
-      if (this.registForm.username.length < 3) {
-        console.log(this.registForm.username);
-        ElNotification({
-          type: "error",
-          message: (new Error("用户名长度至少为3位") as Error).message,
-        });
-      } else if (this.registForm.password.length < 6) {
-        ElNotification({
-          type: "error",
-          message: (new Error("密码长度至少为6位") as Error).message,
-        });
-      } else if (this.registForm.password !== this.registForm.confirmPassword) {
-        ElNotification({
-          type: "error",
-          message: (new Error("确认密码错误") as Error).message,
-        });
-      } else {
-        return;
-      }
-    },
+    switchPage () {
+    this.$refs.cont.classList.toggle('signUp')
   },
-};
+  // 登录功能实现
+  async login () {
+  // 验证表单是否通过验证，如果通过验证，则执行登录操作，否则不执行登录操作。
+  await this.validate();
+  // 开启加载效果
+  this.loading = true;
+  try {
+    // 登陆成功
+    await userStore.userLogin(this.loginForm);
+    // 编程式导航跳转到展示数据首页
+    // 判断是否包含redirect参数，如果包含，则跳转到redirect参数指定的页面，否则跳转到首页
+    let redirect: any = this.$route.query.redirect as string;
+    $router.push({ path: redirect ? redirect : "/" });
+    // 弹出提示信息
+    ElNotification({
+      type: "success",
+      message: "欢迎回来",
+      title: `Hi,${getTime()}`,
+    });
+    // 关闭加载效果
+    this.loading = false;
+  } catch (error) {
+    // 关闭加载效果
+    this.loading = false;
+    //登陆失败的提示信息
+    ElNotification({
+      type: "error",
+      message: (error as Error).message,
+    });
+  }
+},
+validate(){
+  if (this.loginForm.username.length < 3) {
+    ElNotification({
+      type: "error",
+      message: (new Error("用户名长度至少为3位") as Error).message,
+    });
+  } else if (this.loginForm.password.length < 6){
+    ElNotification({
+      type: "error",
+      message: (new Error("密码长度至少为6位") as Error).message,
+    });
+  } else {
+    return;
+  }
+},
+// 注册功能实现
+async regist() {
+  // 验证表单是否通过验证，如果通过验证，则执行注册操作，否则不执行注册操作。
+  await this.validateRegist();
+  // 开启加载效果
+  this.loading = true;
+  try {
+    // 登陆成功
+    await userStore.userRegist(this.loginForm);
+    // 弹出提示信息
+    ElNotification({
+      type: "success",
+      message: "注册成功",
+      title: `Hi,${getTime()}`,
+    });
+    // 关闭加载效果
+    this.loading = false;
+  } catch (error) {
+    // 关闭加载效果
+    this.loading = false;
+    //登陆失败的提示信息
+    ElNotification({
+      type: "error",
+      message: (error as Error).message,
+    });
+  }
+},
+validateRegist(){
+  if (this.registForm.username.length < 3) {
+    console.log(this.registForm.username)
+    ElNotification({
+      type: "error",
+      message: (new Error("用户名长度至少为3位") as Error).message,
+    });
+  } else if (this.registForm.password.length < 6){
+    ElNotification({
+      type: "error",
+      message: (new Error("密码长度至少为6位") as Error).message,
+    });
+  } else if (this.registForm.password!==this.registForm.confirmPassword){
+    ElNotification({
+      type: "error",
+      message: (new Error("确认密码错误") as Error).message,
+    });
+  }else {
+    return;
+  }
+}
+  }
+}
+
 </script>
 
 <style></style>

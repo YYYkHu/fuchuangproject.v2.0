@@ -73,6 +73,5 @@ export interface userInfoResponseData extends ResponseData {
     buttons: string[];
     roles: string[];
     name: string;
-    avatar: string;
   };
 }
