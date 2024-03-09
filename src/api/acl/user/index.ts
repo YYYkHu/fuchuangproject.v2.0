@@ -13,8 +13,15 @@ enum API {
 }
 
 // 获取用户账户信息
-export const reqUserInfo = (page: number, limit: number) =>
-  request.get<any, UserResponseData>(API.ALLURERS_URL + `${page}/${limit}`);
+export const reqUserInfo = (
+  page: number,
+  limit: number,
+  username: string,
+  name: string
+) =>
+  request.get<any, UserResponseData>(
+    API.ALLURERS_URL + `${page}/${limit}/?username=${username}/?name=${name}`
+  );
 
 // 删除
 export const reqDeleteUser = (id: number) =>

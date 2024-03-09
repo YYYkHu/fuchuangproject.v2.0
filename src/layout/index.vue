@@ -35,7 +35,6 @@
 
           <div class="img">
             <img :src="Settings" alt="" class="img-svg" />
-            <p class="img-title">设置</p>
           </div>
         </el-scrollbar>
       </div>
@@ -100,14 +99,10 @@ export default {
   width: 100%; // 宽度100%,内部边框导致width减小
   height: 100vh;
   background-color: rgb(238, 236, 255);
-
+  background-image: url("../assets/images/bg2.jpg"); /* 替换为你的背景图路径 */
+  background-size: cover; /* 背景图填充方式 */
+  color: white; /* 文字颜色，根据背景图适当调整 */
   // 菜单栏样式
-  .el-menu-vertical-demo {
-    background: $base-menu-background;
-    font-weight: 540;
-    font-size: 26px;
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  }
 
   // background: #f0f2f5;
 
@@ -129,19 +124,21 @@ export default {
 
       .el-menu {
         border-right: none;
+        background: $base-menu-background;
+        font-weight: 540;
+        font-size: 26px;
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
       }
-
+      //    设置图片
       .img {
         border-radius: 20px;
         width: 40px;
         height: 40px;
-        top: 100px;
+        margin-left: 30px;
+        margin-top: 580px;
         .img-svg {
           width: 90%;
           height: 90%;
-          float: left;
-        }
-        .img-title {
           float: left;
         }
       }
@@ -153,7 +150,7 @@ export default {
   // 顶部导航栏
   .layout_tabbar {
     // float: inline-end;
-    background-color: #fff;
+    background: $base-menu-background;
     margin: 12px 10px 5px 10px;
     padding: 5px 7px;
     border-radius: 15px;
@@ -161,7 +158,7 @@ export default {
     justify-content: space-between;
 
     position: fixed; // 固定定位
-    background: $base-menu-background;
+
     width: calc(99% - $base-menu-width);
     height: $base-tabbar-height;
     // background: cyan;

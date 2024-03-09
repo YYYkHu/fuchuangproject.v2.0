@@ -22,6 +22,8 @@ let useUserStore = defineStore("User", {
   // 创建用户小仓库
   state: (): UserState => {
     return {
+      // 如果本地的token被拿到怎么办？
+      //在实际的开发中token由gwt生成
       token: GET_TOKEN(), //用户的唯一标识
       menuRoutes: constantRoutes, // 仓库生成菜单需要的数组（路由）
       username: "", //用户姓名
@@ -57,11 +59,13 @@ let useUserStore = defineStore("User", {
         this.username = result.data.name;
         return "ok";
       } else {
+        //什么意思呢？
+        // 返回一个由async请求的promise异常对象，使用reject返回错误信息
         return Promise.reject(new Error(result.message));
       }
     },
     async userRegist(data: registerFormData) {
-      //  登录请求
+      //  注册请求
       let result: registerResponseData = await reqRegister(data);
       // 登陆成功200 ->
       console.log(result);

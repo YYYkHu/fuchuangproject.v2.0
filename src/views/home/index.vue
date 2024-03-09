@@ -1,34 +1,26 @@
-<!-- <template>
-  <div>
-    <h1>一级路由Home</h1>
-  </div>
-</template> -->
-
-<!-- <script setup lang="ts">
-// // 引入生命周期函数
-// import { onMounted } from "vue";
-// // 获取仓库
-// import useUserStore from "@/store/modules/user";
-// let userStore = useUserStore();
-
-// onMounted(() => {
-//   // 目前是首页挂载完毕发请求获取用户信息
-//   userStore.userInfo();
-// });
-// 从路由守卫中获取
-</script>
-
-<style scoped></style> -->
-
 <template>
   <div>
-    <el-card class="tutorial-bar" style="height: 260px">
-      <div style="height: 260px">
-        <div class="box" style="">
-          <!-- <el-card style="height: 260px; width: 260px">
-          <div ref="chartRef" style="height: 260px"></div>
-        </el-card> -->
-
+    <el-card class="tutorial-bar">
+      <div>
+        <div class="boxleft">
+          <img
+            src="D:\桌面\fuchuang\fuChuangProject.v2.0\src\assets\images\yindao2.png"
+            alt=""
+            style="border-radius: 15px"
+          />
+          <button
+            class="btn-8"
+            style="
+              position: absolute;
+              top: 34%;
+              left: 30%;
+              transform: translate(-50%, -50%);
+            "
+          >
+            <span>Read Span</span>
+          </button>
+        </div>
+        <div class="boxright" style="">
           <img :src="userStore.avatar" alt="" class="avatar" />
           <div>
             <h3 class="title">{{ getTime() }} {{ userStore.username }}</h3>
@@ -39,12 +31,21 @@
     </el-card>
   </div>
 
-  <div class="gragh">
+  <div class="graghthree">
     <el-card style="height: 260px">
       <div ref="usechart" style="height: 240px"></div>
     </el-card>
     <el-card style="height: 260px">
       <div ref="userchartone" style="height: 240px"></div>
+    </el-card>
+    <el-card style="height: 260px">
+      <div ref="userchartbrokenline" style="height: 240px"></div>
+    </el-card>
+  </div>
+
+  <div class="graghtwo">
+    <el-card style="height: 260px">
+      <div ref="usecharthistogram" style="height: 260px"></div>
     </el-card>
   </div>
 </template>
@@ -58,6 +59,8 @@ import { getTime } from "@/utils/time";
 const chartRef = ref<null | HTMLDivElement>(null);
 const usechart = ref<null | HTMLDivElement>(null);
 const userchartone = ref<null | HTMLDivElement>(null);
+const userchartbrokenline = ref<null | HTMLDivElement>(null);
+const usercharthistogram = ref<null | HTMLDivElement>(null);
 
 let userStore = useUserStore();
 
@@ -70,9 +73,18 @@ onMounted(() => {
     const chart = echarts.init(userchartone.value);
     chart.setOption(options2);
   }
+
   if (usechart.value) {
     const chart = echarts.init(usechart.value);
     chart.setOption(options3);
+  }
+  if (userchartbrokenline.value) {
+    const chart = echarts.init(userchartbrokenline.value);
+    chart.setOption(options4);
+  }
+  if (usercharthistogram.value) {
+    const chart = echarts.init(usercharthistogram.value);
+    chart.setOption(options5);
   }
 });
 /** @type EChartsOption */
@@ -144,18 +156,153 @@ const options3 = {
     },
   ],
 };
+/** @type EChartsOption */
+const options4 = {
+  xAxis: {
+    type: "category",
+    boundaryGap: false,
+    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  },
+  yAxis: {
+    type: "value",
+  },
+  series: [
+    {
+      data: [820, 932, 600, 934, 1290, 1330, 1320],
+      type: "line",
+      areaStyle: {},
+    },
+  ],
+};
+/** @type EChartsOption */
+const options5 = {
+  legend: {},
+  tooltip: {},
+  dataset: {
+    dimensions: ["product", "2015", "2016", "2017"],
+    source: [
+      { product: "Matcha Latte", 2015: 43.3, 2016: 85.8, 2017: 93.7 },
+      { product: "Milk Tea", 2015: 83.1, 2016: 73.4, 2017: 55.1 },
+      { product: "Cheese Cocoa", 2015: 86.4, 2016: 65.2, 2017: 82.5 },
+      { product: "Walnut Brownie", 2015: 72.4, 2016: 53.9, 2017: 39.1 },
+    ],
+  },
+  xAxis: { type: "category" },
+  yAxis: {},
+  // Declare several bar series, each will be mapped
+  // to a column of dataset.source by default.
+  series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }],
+};
 </script>
 
 <style scoped lang="scss">
 .tutorial-bar {
-  margin: 0 10px;
-  padding: 5px 7px;
+  height: 360px;
+  margin: 10px 10px;
+  padding: 0 0;
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
   justify-content: space-between;
+  // background-image: url("../src/assets/images/yindao2.png");
+  background-color: rgba(255, 255, 255, 0.8);
+
+  .boxright {
+    float: right;
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    .title {
+      font-size: 25px;
+      margin-bottom: 30px;
+    }
+    .bottom {
+      font-size: italic;
+      color: rgb(193, 208, 246);
+    }
+  }
+  .boxleft {
+    float: left;
+    .btn-8 {
+      background-color: #f0ecfc;
+      background-image: linear-gradient(315deg, #f0ecfc 0%, #c797eb 74%);
+      line-height: 42px;
+      padding: 0;
+      border: none;
+    }
+    .btn-8 span {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .btn-8:before,
+    .btn-8:after {
+      position: absolute;
+      content: "";
+      right: 0;
+      bottom: 0;
+      background: #c797eb;
+      /*box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.5),
+    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);*/
+      transition: all 0.3s ease;
+    }
+    .btn-8:before {
+      height: 0%;
+      width: 2px;
+    }
+    .btn-8:after {
+      width: 0%;
+      height: 2px;
+    }
+    .btn-8:hover:before {
+      height: 100%;
+    }
+    .btn-8:hover:after {
+      width: 100%;
+    }
+    .btn-8:hover {
+      background: transparent;
+    }
+    .btn-8 span:hover {
+      color: #c797eb;
+    }
+    .btn-8 span:before,
+    .btn-8 span:after {
+      position: absolute;
+      content: "";
+      left: 0;
+      top: 0;
+      background: #c797eb;
+      /*box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.5),
+    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);*/
+      transition: all 0.3s ease;
+    }
+    .btn-8 span:before {
+      width: 2px;
+      height: 0%;
+    }
+    .btn-8 span:after {
+      height: 2px;
+      width: 0%;
+    }
+    .btn-8 span:hover:before {
+      height: 100%;
+    }
+    .btn-8 span:hover:after {
+      width: 100%;
+    }
+  }
 }
 
-.gragh {
+.graghthree {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
@@ -166,83 +313,28 @@ const options3 = {
     border-radius: 15px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
     justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.graghtwo {
+  margin-top: 20px;
+  display: flex;
+
+  // justify-content: space-between;
+  .el-card {
+    width: 80%;
+    margin: 0 10px;
+    padding: 5px 7px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+    background-color: rgba(255, 255, 255, 0.8);
+    // justify-content: space-between;
   }
 }
 
 .box {
   display: flex;
   margin-left: 20px;
-
-  .avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 20px;
-  }
-
-  .title {
-    font-size: 25px;
-    margin-bottom: 30px;
-  }
-  .bottom {
-    font-size: italic;
-    color: rgb(193, 208, 246);
-  }
 }
 </style>
-
-<!-- <template>
-  <v-chart class="chart" :option="option" autoresize />
-</template>
-
-<script setup lang="ts">
-import  from "echarts";
-import VChart, { THEME_KEY } from "vue-echarts";
-import { ref, provide } from "vue";
-
-provide(THEME_KEY, "dark");
-
-const option = ref({
-  title: {
-    text: "Traffic Sources",
-    left: "center",
-  },
-  tooltip: {
-    trigger: "item",
-    formatter: "{a} <br/>{b} : {c} ({d}%)",
-  },
-  legend: {
-    orient: "vertical",
-    left: "left",
-    data: ["Direct", "Email", "Ad Networks", "Video Ads", "Search Engines"],
-  },
-  series: [
-    {
-      name: "Traffic Sources",
-      type: "pie",
-      radius: "55%",
-      center: ["50%", "60%"],
-      data: [
-        { value: 335, name: "Direct" },
-        { value: 310, name: "Email" },
-        { value: 234, name: "Ad Networks" },
-        { value: 135, name: "Video Ads" },
-        { value: 1548, name: "Search Engines" },
-      ],
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: "rgba(0, 0, 0, 0.5)",
-        },
-      },
-    },
-  ],
-});
-</script>
-
-<style scoped>
-.chart {
-  height: 100vh;
-}
-</style> -->

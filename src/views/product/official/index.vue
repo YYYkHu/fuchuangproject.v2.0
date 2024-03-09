@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card class="mirrorsearch">
     <el-form :inline="true">
       <el-form-item label="镜像名">
         <el-input placeholder="请输入镜像名"></el-input>
@@ -11,8 +11,8 @@
     </el-form>
   </el-card>
   <!-- table展示数据 -->
-  <el-card style="margin: 12px 0px">
-    <el-table style="margin: 12px 0px" border :data="userAll">
+  <el-card class="mirrortable">
+    <el-table class="table" border :data="userAll">
       <el-table-column type="selection"></el-table-column>
       <el-table-column
         label="#"
@@ -28,7 +28,7 @@
       ></el-table-column>
 
       <el-table-column
-        label="镜像名称"
+        label="名称"
         prop="imageName"
         align="center"
         show-overflow-tooltip
@@ -286,4 +286,25 @@ const addContainer = () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.mirrorsearch {
+  margin: 5px 10px;
+  padding: 2px 7px 2px 30px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+  justify-content: space-between;
+  background-color: rgb(193, 208, 246, 0.7);
+}
+.mirrortable {
+  margin: 5px 10px;
+  padding: 2px 7px 2px 30px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+  justify-content: space-between;
+  background-color: rgb(193, 208, 246, 0.7);
+  .table {
+    border-radius: 20px;
+    background-color: rgb(193, 208, 246, 0.7);
+  }
+}
+</style>

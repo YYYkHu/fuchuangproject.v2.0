@@ -51,10 +51,10 @@ router.beforeEach(async (to: any, from: any, next: any) => {
     }
   } else {
     // 用户未登录
-    if (to.path == "/login") {
+    if (to.path !== "/login") {
       next();
     } else {
-      next({ path: "/login", query: { redirect: to.path } });
+      // next({ path: "/login", query: { redirect: to.path } });
     }
   }
 });

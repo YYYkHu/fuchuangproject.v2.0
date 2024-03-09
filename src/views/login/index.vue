@@ -1,59 +1,60 @@
 <template>
- <div class="body">
-  <div class="cont" ref="cont">
-    <div class="form sign-in"  ref="loginForms">
-      <h2>Sign In</h2>
-      <label>
-        <span>Name</span>
-        <input type="name" name="name" v-model="loginForm.username">
-      </label>
-      <label>
-        <span>Password</span>
-        <input type="password" name="password" v-model="loginForm.password">
-      </label>
-      <button class="submit" type="button" @click="login">登录</button>
-      <p class="forgot-pass">Forgot Password ?</p>
-    </div>
-
-    <div class="sub-cont">
-      <div class="img">
-        <div class="img-text m-up">
-          <h2>New here?</h2>
-          <p>Sign up and discover great amount of new opportunities!</p>
-        </div>
-        <div class="img-text m-in">
-          <h2>One of us?</h2>
-          <p>If you already has an account, just sign in. We've missed you!</p>
-        </div>
-        <div class="img-btn" @click="switchPage()">
-          <span class="m-up">Sign Up</span>
-          <span class="m-in">Sign In</span>
-        </div>
-      </div>
-      <div class="form sign-up" ref="registForms">
-        <h2>Sign Up</h2>
+  <div class="body">
+    <div class="cont" ref="cont">
+      <div class="form sign-in" ref="loginForms">
+        <h2>Sign In</h2>
         <label>
           <span>Name</span>
-          <input type="text" v-model="registForm.username">
+          <input type="name" name="name" v-model="loginForm.username" />
         </label>
         <label>
           <span>Password</span>
-          <input type="password" v-model="registForm.password">
+          <input type="password" name="password" v-model="loginForm.password" />
         </label>
-        <label>
-          <span>Confirm Password</span>
-          <input type="password" v-model="registForm.confirmPassword">
-        </label>
-        <button type="button" class="submit" @click="regist">注册</button>
+        <button class="submit" type="button" @click="login">登录</button>
+        <p class="forgot-pass">Forgot Password ?</p>
+      </div>
+
+      <div class="sub-cont">
+        <div class="img">
+          <div class="img-text m-up">
+            <h2>New here?</h2>
+            <p>Sign up and discover great amount of new opportunities!</p>
+          </div>
+          <div class="img-text m-in">
+            <h2>One of us?</h2>
+            <p>
+              If you already has an account, just sign in. We've missed you!
+            </p>
+          </div>
+          <div class="img-btn" @click="switchPage()">
+            <span class="m-up">Sign Up</span>
+            <span class="m-in">Sign In</span>
+          </div>
+        </div>
+        <div class="form sign-up" ref="registForms">
+          <h2>Sign Up</h2>
+          <label>
+            <span>Name</span>
+            <input type="text" v-model="registForm.username" />
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" v-model="registForm.password" />
+          </label>
+          <label>
+            <span>Confirm Password</span>
+            <input type="password" v-model="registForm.confirmPassword" />
+          </label>
+          <button type="button" class="submit" @click="regist">注册</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-  
 </template>
 
 <script lang="ts">
-import '@/views/login/style.css'
+import "@/views/login/style.css";
 
 // 引入用户相关的仓库
 import useLoginStore from "@/store/modules/user";
@@ -71,19 +72,19 @@ import { getTime } from "@/utils/time";
 let $router = useRouter();
 
 export default {
-  data(){
+  data() {
     return {
-      loading:false,
-      loginForm :{
-        username: "",
-        password: ""
-      },
-      registForm :{
+      loading: false,
+      loginForm: {
         username: "",
         password: "",
-        confirmPassword:""
-      }
-    }
+      },
+      registForm: {
+        username: "",
+        password: "",
+        confirmPassword: "",
+      },
+    };
   },
   methods: {
     switchPage () {
@@ -188,6 +189,4 @@ validateRegist(){
 
 </script>
 
-<style>
-
-</style>
+<style></style>

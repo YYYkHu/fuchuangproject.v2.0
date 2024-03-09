@@ -5,8 +5,8 @@ $base-menu-width: 280px;
 // 左侧菜单的背景颜色
 $base-menu-background: linear-gradient(
   to right,
-  rgb(232, 236, 248),
-  rgb(221, 214, 246)
+  rgb(232, 236, 248, 0.5),
+  rgb(221, 214, 246, 0.5)
 );
 $base-menu-min-width: 46px;
 // 顶部导航的高度
