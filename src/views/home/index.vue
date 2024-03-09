@@ -1,8 +1,26 @@
 <template>
   <div>
-    <el-card class="tutorial-bar" style="height: 260px">
-      <div style="height: 260px">
-        <div class="box" style="">
+    <el-card class="tutorial-bar">
+      <div>
+        <div class="boxleft">
+          <img
+            src="D:\桌面\fuchuang\fuChuangProject.v2.0\src\assets\images\yindao2.png"
+            alt=""
+            style="border-radius: 15px"
+          />
+          <button
+            class="btn-8"
+            style="
+              position: absolute;
+              top: 34%;
+              left: 30%;
+              transform: translate(-50%, -50%);
+            "
+          >
+            <span>Read Span</span>
+          </button>
+        </div>
+        <div class="boxright" style="">
           <img :src="userStore.avatar" alt="" class="avatar" />
           <div>
             <h3 class="title">{{ getTime() }} {{ userStore.username }}</h3>
@@ -179,11 +197,109 @@ const options5 = {
 
 <style scoped lang="scss">
 .tutorial-bar {
-  margin: 0 10px;
-  padding: 5px 7px;
+  height: 360px;
+  margin: 10px 10px;
+  padding: 0 0;
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
   justify-content: space-between;
+  // background-image: url("../src/assets/images/yindao2.png");
+  background-color: rgba(255, 255, 255, 0.8);
+
+  .boxright {
+    float: right;
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    .title {
+      font-size: 25px;
+      margin-bottom: 30px;
+    }
+    .bottom {
+      font-size: italic;
+      color: rgb(193, 208, 246);
+    }
+  }
+  .boxleft {
+    float: left;
+    .btn-8 {
+      background-color: #f0ecfc;
+      background-image: linear-gradient(315deg, #f0ecfc 0%, #c797eb 74%);
+      line-height: 42px;
+      padding: 0;
+      border: none;
+    }
+    .btn-8 span {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .btn-8:before,
+    .btn-8:after {
+      position: absolute;
+      content: "";
+      right: 0;
+      bottom: 0;
+      background: #c797eb;
+      /*box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.5),
+    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);*/
+      transition: all 0.3s ease;
+    }
+    .btn-8:before {
+      height: 0%;
+      width: 2px;
+    }
+    .btn-8:after {
+      width: 0%;
+      height: 2px;
+    }
+    .btn-8:hover:before {
+      height: 100%;
+    }
+    .btn-8:hover:after {
+      width: 100%;
+    }
+    .btn-8:hover {
+      background: transparent;
+    }
+    .btn-8 span:hover {
+      color: #c797eb;
+    }
+    .btn-8 span:before,
+    .btn-8 span:after {
+      position: absolute;
+      content: "";
+      left: 0;
+      top: 0;
+      background: #c797eb;
+      /*box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.5),
+    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);*/
+      transition: all 0.3s ease;
+    }
+    .btn-8 span:before {
+      width: 2px;
+      height: 0%;
+    }
+    .btn-8 span:after {
+      height: 2px;
+      width: 0%;
+    }
+    .btn-8 span:hover:before {
+      height: 100%;
+    }
+    .btn-8 span:hover:after {
+      width: 100%;
+    }
+  }
 }
 
 .graghthree {
@@ -197,11 +313,14 @@ const options5 = {
     border-radius: 15px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
     justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.8);
   }
 }
+
 .graghtwo {
   margin-top: 20px;
   display: flex;
+
   // justify-content: space-between;
   .el-card {
     width: 80%;
@@ -209,6 +328,7 @@ const options5 = {
     padding: 5px 7px;
     border-radius: 15px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+    background-color: rgba(255, 255, 255, 0.8);
     // justify-content: space-between;
   }
 }
@@ -216,21 +336,5 @@ const options5 = {
 .box {
   display: flex;
   margin-left: 20px;
-
-  .avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 20px;
-  }
-
-  .title {
-    font-size: 25px;
-    margin-bottom: 30px;
-  }
-  .bottom {
-    font-size: italic;
-    color: rgb(193, 208, 246);
-  }
 }
 </style>

@@ -29,11 +29,7 @@ export default {
   // 弹性盒子
   display: flex;
   justify-content: space-between;
-  background-image: linear-gradient(
-    to right,
-    rgb(236, 233, 245),
-    rgb(193, 208, 246)
-  );
+
   .tabbar_left {
     display: flex;
     // 垂直居中
