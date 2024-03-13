@@ -1,157 +1,107 @@
 <template>
-  <el-card class="search">
-    <el-form :inline="true" style="margin-top: 20px">
-      <el-form-item label="设备名：">
-        <el-input
-          placeholder="请输入设备名"
-          v-model="usernamekeyword"
-          style="background: rgb(242, 242, 242, 0.5)"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="终端类型：">
-        <el-input
-          placeholder="请输入终端类型"
-          v-model="nicknamekeyword"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="登陆时间：">
-        <el-date-picker
-          v-model="value1"
-          type="datetimerange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        >
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          type="primary"
-          size="default"
-          :disabled="usernamekeyword || nicknamekeyword ? false : true"
-          @click="search"
-          >搜索</el-button
-        >
-        <el-button type="primary" size="default " @click="reset()"
-          >重置</el-button
-        >
-      </el-form-item>
-    </el-form>
+  <el-card class="tutorial-bar">
+    <div>
+      <div class="boxleft">
+        <img
+          src="@\assets\images\yindao2.png"
+          alt=""
+          style="border-radius: 15px"
+        />
+      </div>
+      <div class="boxright" style=""></div>
+    </div>
   </el-card>
   <!-- table展示数据 -->
-  <el-card class="table">
-    <el-table class="eltable" border :data="userAll" stripe>
-      <el-table-column type="selection"></el-table-column>
-      <el-table-column
-        label="#"
-        type="index"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
-      <el-table-column
-        label="ID"
-        prop="id"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
+  <div class="graghthree">
+    <el-card style="height: 260px">
+      <div style="height: 240px">
+        <div class="cardTop">
+          <h1 class="h1">默认桌面名</h1>
+          <img
+            src="@/assets/icons/shutdown.svg"
+            alt=""
+            class="svg"
+            @click="visible = true"
+          />
+        </div>
+        <div class="introduce">
+          <!-- 插图 -->
+          <img
+            src="@/assets/icons/deskCard-1.svg"
+            alt=""
+            class="img"
+            style="width: 200px; height: 200px"
+          />
+          <div class="p">
+            <p>桌面ID:{{ desktopId }}</p>
+            <br />
+            <p>桌面配置:{{ desktopId }}</p>
+            <br />
+            <p>桌面网络:{{ desktopId }}</p>
+            <br />
+          </div>
+        </div>
+        <div class="card-footer">
+          <el-button @click="visible = true"> 开机 </el-button>
+        </div>
+        <!-- 动态显示距上次开关机时间 -->
+        <el-dialog title="提示" :visible.sync="visible" width="30%">
+          <template #footer>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="visible = false">取 消</el-button>
+              <el-button type="primary" @click="save">确 定</el-button>
+            </span>
+          </template>
+        </el-dialog>
+      </div>
+    </el-card>
 
-      <el-table-column
-        label="用户名"
-        prop="name"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
+    <el-card style="height: 260px">
+      <div style="height: 240px">
+        <div class="cardTop">
+          <h1 class="h1">默认桌面名</h1>
+          <!-- 关机图标，绑定关机事件 -->
+          <img src="@/assets/icons/shutdown.svg" alt="" class="svg" />
+          <!-- 插图 -->
+        </div>
+        <div class="introduce">
+          <img
+            src="@/assets/icons/deskCard-1.svg"
+            alt=""
+            class="img"
+            style="width: 200px; height: 200px"
+          />
+          <div class="p">
+            <p>桌面ID:{{ desktopId }}</p>
+            <br />
+            <p>桌面配置:{{ desktopId }}</p>
+            <br />
+            <p>桌面网络:{{ desktopId }}</p>
+            <br />
+          </div>
+        </div>
+        <div class="card-footer">
+          <el-button> 开机 </el-button>
+        </div>
+        <!-- 动态显示距上次开关机时间 -->
+      </div>
+    </el-card>
+    <el-card style="height: 260px">
+      <div style="height: 240px"></div>
+    </el-card>
+  </div>
 
-      <el-table-column
-        label="类型"
-        prop="roleName"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
-
-      <el-table-column
-        label="URL"
-        prop="roleName"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
-
-      <el-table-column
-        label="时间"
-        prop="createTime"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
-
-      <el-table-column
-        label="文件"
-        prop="updateTime"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
-
-      <el-table-column label="操作" width="200px" align="center">
-        <template #="{ row, $index }">
-          <el-button
-            type="primary"
-            size="small"
-            icon="Edit"
-            @click="updateContainer"
-            >编辑</el-button
-          >
-
-          <el-popconfirm
-            :title="`确定要删除${row.tmName}`"
-            width="200px"
-            @confirm="row.id;"
-          >
-            <template #reference>
-              <el-button
-                slot="reference"
-                icon="Delete"
-                color="red"
-                size="small"
-                margin-left="10px"
-                @click="removeContainer(row)"
-                >删除</el-button
-              >
-            </template>
-          </el-popconfirm>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <!-- 分页 -->
-    <el-pagination
-      style="margin-top: 20px"
-      v-model:current-page="pageNo"
-      v-model:page-size="pageSize"
-      :page-sizes="[5, 7, 9, 11]"
-      :background="true"
-      layout="prev, pager, next,jumper,->,sizes,total"
-      :total="total"
-      @current-change="getUserInfo"
-    />
-  </el-card>
-
-  <el-dialog
-    title="修改容器信息"
-    v-model="centerDialogVisible"
-    :title="RoleParam ? '更新' : '添加'"
-  >
-    <el-form :model="RoleParam" :rules="rules" ref="form">
-      <el-form-item label="容器名称">
-        <el-input placeholder="请输入容器名称"></el-input>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="save">确 定</el-button>
-      </span>
-    </template>
-  </el-dialog>
-  <!-- 分页 -->
+  <div class="graghthree">
+    <el-card style="height: 260px">
+      <div ref="usechart" style="height: 240px"></div>
+    </el-card>
+    <el-card style="height: 260px">
+      <div ref="userchartone" style="height: 240px"></div>
+    </el-card>
+    <el-card style="height: 260px">
+      <div ref="userchartbrokenline" style="height: 240px"></div>
+    </el-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -185,6 +135,17 @@ const usernamekeyword = ref<string>("");
 const nicknamekeyword = ref<string>("");
 // 获取用户信息
 let settingStore = useLayOutSettingStore();
+
+// 桌面ID
+let desktopId = ref<string>("");
+
+// 展示关机按钮
+const visible = ref<boolean>(false);
+
+const showDialog = () => {
+  visible.value = true;
+};
+
 // 挂载
 onMounted(() => {
   getUserInfo();
@@ -304,59 +265,100 @@ const reset = () => {
   settingStore.reflash != settingStore.reflash;
 };
 
-// // 搜索模块
-// const timeout = ref<number>(0);
-
-// const restaurants = ref<any>([]);
-// // 存储搜索的字段query String，获取对象列表
-
-// const querySearch = async (queryString: any, cb: (results: any[]) => void) => {
-//   restaurants.value = await getUserInfo(1);
-//   const results = queryString
-//     ? restaurants.value.filter(createStateFilter(queryString))
-//     : restaurants.value;
-
-//   clearTimeout(timeout.value);
-//   timeout.value = setTimeout(() => {
-//     cb(results);
-//   }, 3000 * Math.random());
-// };
-
-// const createStateFilter =
-//   (queryString: string) => (state: { value: string }) => {
-//     return state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0;
-//   };
-
-// const handleSelect = (item: any) => {
-//   console.log(item);
-// };
-
 // 终端类型
 
 // 登陆时间
 </script>
 
 <style scoped>
-.search {
-  margin: 5px 10px;
-  padding: 2px 7px 9px 9px;
-  border-radius: 20px;
+.tutorial-bar {
+  height: 300px;
+  margin: 10px 10px;
+  padding: 0 0;
+  border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
   justify-content: space-between;
-  background-color: rgb(193, 208, 246, 0.7);
-}
+  /* background-image: url("../src/assets/images/yindao2.png"); */
+  background-color: rgba(255, 255, 255, 0.8);
 
-.table {
-  margin: 12px 10px;
-  padding: 2px 7px 9px 9px;
-  border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+  .boxright {
+    float: right;
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    .title {
+      font-size: 25px;
+      margin-bottom: 30px;
+    }
+    .bottom {
+      font-size: italic;
+      color: rgb(193, 208, 246);
+    }
+  }
+  .boxleft {
+    float: left;
+  }
+}
+.graghthree {
+  margin-top: 20px;
+  display: flex;
   justify-content: space-between;
-  border-radius: 20px;
-  background-color: rgb(193, 208, 246, 0.7);
-  .eltable {
-    border-radius: 20px;
-    background-color: rgb(193, 208, 246);
+  .el-card {
+    width: 48%;
+    margin: 0 10px;
+    padding: 5px 7px;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.8);
+
+    .cardTop {
+      .h1 {
+        font-size: 40px;
+        margin-bottom: 10px;
+        color: rgb(36, 39, 45);
+        font-weight: 700;
+        float: left;
+        /* 居中 */
+        /* text-align: center; */
+      }
+      .svg {
+        width: 18%;
+        height: 24px;
+        float: right;
+        /* 固定位置 */
+        position: relative;
+      }
+    }
+    .introduce {
+      justify-content: space-between;
+      height: 1px;
+      /* 居中 */
+      /* text-align: center; */
+      .p {
+        font-size: 20px;
+        color: rgb(36, 39, 45);
+        font-weight: 700;
+        float: left;
+      }
+      .img {
+        float: right;
+
+        margin: 0px 5px;
+      }
+    }
+
+    .card-footer {
+      /* 指定按钮位于第三行 */
+      bottom: 100px;
+      margin-top: 180px;
+      margin-left: 100px;
+      width: 100%;
+    }
   }
 }
 </style>

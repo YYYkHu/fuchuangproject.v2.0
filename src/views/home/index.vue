@@ -106,19 +106,19 @@ import { useRouter } from "vue-router";
 const $router = useRouter();
 // 跳转路由到网络
 const goNetworkRouter = () => {
-  $router.push({ path: "/product/trademark" });
+  $router.push({ path: "/product/network" });
 };
 // 跳转路由到官方镜像
 const goMirrorRouter = () => {
-  $router.push({ path: "/product/trademark" });
+  $router.push({ path: "/Network/netmessage" });
 };
 // 跳转路由到桌面
 const goDockRouter = () => {
-  $router.push({ path: "/product/trademark" });
+  $router.push({ path: "/container/containermessage" });
 };
 // 跳转路由到上传镜像
 const goUploadMirrorRouter = () => {
-  $router.push({ path: "/product/trademark" });
+  $router.push({ path: "/product/attr" });
 };
 
 const chartRef = ref<null | HTMLDivElement>(null);

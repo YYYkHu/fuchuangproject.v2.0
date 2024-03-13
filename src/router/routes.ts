@@ -43,6 +43,29 @@ export const constantRoutes = [
     },
   },
   {
+    //网络管理
+    path: "/Network",
+    component: () => import("@/layout/index.vue"),
+    name: "Network",
+    meta: {
+      title: "网络管理",
+      hidden: false,
+      icon: "Lock",
+    },
+    children: [
+      {
+        path: "/Network/netmessage",
+        component: () => import("@/views/network/index.vue"),
+        name: "Networkmessage",
+        meta: {
+          title: "网络",
+          hidden: false,
+          icon: "User",
+        },
+      },
+    ],
+  },
+  {
     // 任何路由
     path: "/:pathMatch(.*)*",
     redirect: "/404",
@@ -81,18 +104,18 @@ export const constantRoutes = [
     component: () => import("@/layout/index.vue"),
     name: "Container",
     meta: {
-      title: "容器管理",
+      title: "桌面管理",
       hidden: false,
       icon: "Lock",
     },
-    redirect: "/acl/role",
+
     children: [
       {
         path: "/container/containermessage",
         component: () => import("@/views/container/index.vue"),
         name: "ContainerMessage",
         meta: {
-          title: "容器管理",
+          title: "桌面",
           hidden: false,
           icon: "User",
         },
@@ -159,7 +182,7 @@ export const constantRoutes = [
         component: () => import("@/views/log/index.vue"),
         name: "Log",
         meta: {
-          title: "日志管理",
+          title: "日志",
           hidden: false,
           icon: "ShoppingBag",
         },
