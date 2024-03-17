@@ -1,16 +1,20 @@
 // 创建用户相关的小仓库
 import { defineStore } from "pinia";
 // 引入接口
-import { reqLogin, reqUserInfo, reqLogout, reqRegister } from "@/api/user";
+import { reqLogin, reqLogout, reqRegister, } from "@/api/user";
+import { reqUserInfo, reqPersonalise,reqOccupation } from "@/api/acl/user"
 // 引入数据类型
 import type {
   loginFormData,
   loginResponseData,
   registerFormData,
   registerResponseData,
-  userInfoResponseData,
 } from "@/api/user/type";
-
+import type {
+  UserResponseData,
+  personaliseResponseData,
+  OccupationResponseData
+} from "@/api/acl/user/type"
 import type { UserState } from "@/store/modules/types/type";
 // 引入本地存储的工具方法
 import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from "@/utils/token";
@@ -54,9 +58,31 @@ let useUserStore = defineStore("User", {
     // 获取用户信息方法
     async userInfo() {
       // 获取存储到仓库中
-      let result: userInfoResponseData = await reqUserInfo();
+      let result: UserResponseData = await reqUserInfo();
       if (result.code === 0) {
-        this.username = result.data.name;
+        this.username = result.data.records.username;
+        return "ok";
+      } else {
+        //什么意思呢？
+        // 返回一个由async请求的promise异常对象，使用reject返回错误信息
+        return Promise.reject(new Error(result.message));
+      }
+    },
+    async personalise() {
+      // 获取存储到仓库中
+      let result: personaliseResponseData = await reqPersonalise();
+      if (result.code === 0) {
+        return "ok";
+      } else {
+        //什么意思呢？
+        // 返回一个由async请求的promise异常对象，使用reject返回错误信息
+        return Promise.reject(new Error(result.message));
+      }
+    },
+    async getOccupation() {
+      // 获取存储到仓库中
+      let result: OccupationResponseData = await reqOccupation();
+      if (result.code === 0) {
         return "ok";
       } else {
         //什么意思呢？

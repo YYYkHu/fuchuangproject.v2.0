@@ -1,8 +1,6 @@
 <script setup lang="ts">
 // import {Plus,Edit ,Delete} from '@element-plus/icons-vue'
 
-// import SvgIcon from '@/components/SvgIcon/index.vue'
-
 // import { onMounted } from 'vue';
 // import {reqLogin} from './api/user'
 

@@ -206,7 +206,7 @@ button {
   top: 0;
   width: 800px;
   height: 100%;
-  background-image: url(@/assets/images/bg.jpg);
+  background-image: url(@/assets/images/bg2.jpg);
   background-size: cover;
   transition: -webkit-transform 1.2s ease-in-out;
   transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;

@@ -40,6 +40,7 @@ export const reqLogin = (data: loginFormData) =>
 // 获取用户信息
 export const reqUserInfo = () =>
   request.get<any, userInfoResponseData>(API.USERINFO_URL);
+
 // 退出登录`
 export const reqLogout = () => request.get<any, any>(API.LOGOUT_URL);
 //注册

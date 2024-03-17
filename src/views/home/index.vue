@@ -4,7 +4,7 @@
       <div>
         <div class="boxleft">
           <img
-            src="D:\桌面\fuchuang\fuChuangProject.v2.0\src\assets\images\yindao2.png"
+            src="@\assets\images\yindao2.png"
             alt=""
             style="border-radius: 15px"
           />

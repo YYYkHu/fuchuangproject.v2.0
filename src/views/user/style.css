@@ -1,6 +1,6 @@
 .content {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 20px;
   display: flex;
   padding: 20px;
@@ -72,9 +72,32 @@
   font-weight: 700;
   padding: 5px;
   color: #c5acf3;
-  border-bottom: #d4d4d4 1px solid;
+  border-bottom: #747474 1px solid;
 }
 
 .basic-detail div div {
-  padding: 10px;
+  padding: 6px;
+}
+
+input[type='text'] {
+  outline-style: none;
+  border: 1px solid #c0c4cc;
+  border-radius: 5px;
+  width: 200px;
+  height: 30px;
+  padding: 0;
+  padding: 10px 15px;
+  box-sizing: border-box;
+}
+
+.button {
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px/5px;
+  color: white;
+  background: #cfbdef;
+  box-shadow: #c0c4cc 1px 1px;
+  margin-right: 20px;
+  text-align: center;
 }

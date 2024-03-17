@@ -1,11 +1,11 @@
 // 引入项目中的全局组件
 import SvgIcon from "./SvgIcon/index.vue";
-import Pagination from "./Pagination/index.vue";
+import ColorLabel from "./ColorLabel/index.vue";
 // 引入element-plus的全部的图标组件
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 console.log(ElementPlusIconsVue);
 //全局对象
-const allGlobalComponents: any = { SvgIcon, Pagination };
+const allGlobalComponents: any = { SvgIcon, ColorLabel };
 console.log(allGlobalComponents);
 
 //对外暴露一个插件对象
