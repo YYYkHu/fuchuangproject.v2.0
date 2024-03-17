@@ -8,17 +8,62 @@
             alt=""
             style="border-radius: 15px"
           />
-          <button
-            class="btn-8"
+          <el-button
+            type="primary"
+            class="btn-12"
             style="
               position: absolute;
               top: 34%;
-              left: 30%;
-              transform: translate(-50%, -50%);
+              left: 12%;
+              transform: translate(-30%, -50%);
+              margin-left: auto;
             "
+            @click="goNetworkRouter"
           >
-            <span>Read Span</span>
-          </button>
+            <span>创建网络</span>
+          </el-button>
+          <el-button
+            type="primary"
+            class="btn-12"
+            style="
+              position: absolute;
+              top: 34%;
+              left: 26%;
+              transform: translate(-30%, -50%);
+              margin-left: auto;
+            "
+            @click="goMirrorRouter"
+          >
+            <span>配置镜像</span>
+          </el-button>
+          <el-button
+            type="primary"
+            class="btn-12"
+            style="
+              position: absolute;
+              top: 34%;
+              left: 40%;
+              transform: translate(-30%, -50%);
+              margin-left: auto;
+            "
+            @click="goDockRouter"
+          >
+            <span>进入桌面</span>
+          </el-button>
+          <el-button
+            type="primary"
+            class="btn-12"
+            style="
+              position: absolute;
+              top: 34%;
+              left: 56%;
+              transform: translate(-30%, -50%);
+              margin-left: auto;
+            "
+            @click="goUploadMirrorRouter"
+          >
+            <span>上传桌面</span>
+          </el-button>
         </div>
         <div class="boxright" style="">
           <img :src="userStore.avatar" alt="" class="avatar" />
@@ -55,6 +100,26 @@ import { ref, onMounted } from "vue";
 import * as echarts from "echarts";
 import useUserStore from "@/store/modules/user";
 import { getTime } from "@/utils/time";
+// 路由跳转
+import { useRouter } from "vue-router";
+
+const $router = useRouter();
+// 跳转路由到网络
+const goNetworkRouter = () => {
+  $router.push({ path: "/product/network" });
+};
+// 跳转路由到官方镜像
+const goMirrorRouter = () => {
+  $router.push({ path: "/Network/netmessage" });
+};
+// 跳转路由到桌面
+const goDockRouter = () => {
+  $router.push({ path: "/container/containermessage" });
+};
+// 跳转路由到上传镜像
+const goUploadMirrorRouter = () => {
+  $router.push({ path: "/product/attr" });
+};
 
 const chartRef = ref<null | HTMLDivElement>(null);
 const usechart = ref<null | HTMLDivElement>(null);
@@ -226,79 +291,6 @@ const options5 = {
   }
   .boxleft {
     float: left;
-    .btn-8 {
-      background-color: #f0ecfc;
-      background-image: linear-gradient(315deg, #f0ecfc 0%, #c797eb 74%);
-      line-height: 42px;
-      padding: 0;
-      border: none;
-    }
-    .btn-8 span {
-      position: relative;
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .btn-8:before,
-    .btn-8:after {
-      position: absolute;
-      content: "";
-      right: 0;
-      bottom: 0;
-      background: #c797eb;
-      /*box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
-    inset -4px -4px 6px 0 rgba(255,255,255,.5),
-    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);*/
-      transition: all 0.3s ease;
-    }
-    .btn-8:before {
-      height: 0%;
-      width: 2px;
-    }
-    .btn-8:after {
-      width: 0%;
-      height: 2px;
-    }
-    .btn-8:hover:before {
-      height: 100%;
-    }
-    .btn-8:hover:after {
-      width: 100%;
-    }
-    .btn-8:hover {
-      background: transparent;
-    }
-    .btn-8 span:hover {
-      color: #c797eb;
-    }
-    .btn-8 span:before,
-    .btn-8 span:after {
-      position: absolute;
-      content: "";
-      left: 0;
-      top: 0;
-      background: #c797eb;
-      /*box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
-    inset -4px -4px 6px 0 rgba(255,255,255,.5),
-    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);*/
-      transition: all 0.3s ease;
-    }
-    .btn-8 span:before {
-      width: 2px;
-      height: 0%;
-    }
-    .btn-8 span:after {
-      height: 2px;
-      width: 0%;
-    }
-    .btn-8 span:hover:before {
-      height: 100%;
-    }
-    .btn-8 span:hover:after {
-      width: 100%;
-    }
   }
 }
 

@@ -67,4 +67,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.el-menu-item {
+  background-color: rgba(152, 173, 234, 0.5) !important;
+  /* border-radius: 20px; */
+}
+</style>

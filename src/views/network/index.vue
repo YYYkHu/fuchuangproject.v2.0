@@ -1,18 +1,46 @@
 <template>
-  <el-card>
-    <el-form :inline="true">
-      <el-form-item label="镜像名">
-        <el-input placeholder="请输入镜像名"></el-input>
+  <el-card class="search">
+    <el-form :inline="true" style="margin-top: 20px">
+      <el-form-item label="设备名：">
+        <el-input
+          placeholder="请输入设备名"
+          v-model="usernamekeyword"
+          style="background: rgb(242, 242, 242, 0.5)"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="终端类型：">
+        <el-input
+          placeholder="请输入终端类型"
+          v-model="nicknamekeyword"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="登陆时间：">
+        <el-date-picker
+          v-model="value1"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        >
+        </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="default">搜索</el-button>
-        <el-button type="primary" size="default">重置</el-button>
+        <el-button
+          type="primary"
+          size="default"
+          :disabled="usernamekeyword || nicknamekeyword ? false : true"
+          @click="search"
+          >搜索</el-button
+        >
+        <el-button type="primary" size="default " @click="reset()"
+          >重置</el-button
+        >
       </el-form-item>
     </el-form>
   </el-card>
   <!-- table展示数据 -->
-  <el-card style="margin: 12px 0px">
-    <el-table style="margin: 12px 0px" border :data="userAll">
+  <el-card class="table">
+    <el-table class="eltable" border :data="userAll" stripe>
       <el-table-column type="selection"></el-table-column>
       <el-table-column
         label="#"
@@ -26,64 +54,38 @@
         align="center"
         show-overflow-tooltip
       ></el-table-column>
+
       <el-table-column
-        label="用户名称"
-        prop="userName"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
-      <el-table-column
-        label="镜像名称"
-        prop="imageName"
+        label="用户名"
+        prop="name"
         align="center"
         show-overflow-tooltip
       ></el-table-column>
 
       <el-table-column
-        label="系统"
-        prop="imageSystem"
+        label="类型"
+        prop="roleName"
         align="center"
         show-overflow-tooltip
       ></el-table-column>
 
       <el-table-column
-        label="标签"
-        prop="labelName"
+        label="URL"
+        prop="roleName"
         align="center"
         show-overflow-tooltip
       ></el-table-column>
 
       <el-table-column
-        label="推荐CPU"
-        prop="recommendedCpu"
+        label="时间"
+        prop="createTime"
         align="center"
         show-overflow-tooltip
       ></el-table-column>
 
       <el-table-column
-        label="推荐内存"
-        prop="recommendedMemory"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
-
-      <el-table-column
-        label="推荐系统盘"
-        prop="recommendedSystemDisk"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
-
-      <el-table-column
-        label="推荐数据盘"
-        prop=" recommendedDataDisk"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
-
-      <el-table-column
-        label="介绍"
-        prop="imageIntroduce"
+        label="文件"
+        prop="updateTime"
         align="center"
         show-overflow-tooltip
       ></el-table-column>
@@ -121,6 +123,7 @@
 
     <!-- 分页 -->
     <el-pagination
+      style="margin-top: 20px"
       v-model:current-page="pageNo"
       v-model:page-size="pageSize"
       :page-sizes="[5, 7, 9, 11]"
@@ -131,36 +134,17 @@
     />
   </el-card>
 
-  <el-dialog v-model="centerDialogVisible" :title="RoleParam ? '更新' : '添加'">
+  <el-dialog
+    title="修改容器信息"
+    v-model="centerDialogVisible"
+    :title="RoleParam ? '更新' : '添加'"
+  >
     <el-form :model="RoleParam" :rules="rules" ref="form">
-      <el-form-item label="用户名称">
-        <el-input placeholder="请输入用户名称"></el-input>
-      </el-form-item>
-      <el-form-item label="镜像名称">
-        <el-input placeholder="请输入镜像名称"></el-input>
-      </el-form-item>
-      <el-form-item label="系统">
-        <el-input placeholder="请输入系统"></el-input>
-      </el-form-item>
-      <el-form-item label="标签">
-        <el-input placeholder="请输入标签"></el-input>
-      </el-form-item>
-      <el-form-item label="推荐CPU">
-        <el-input placeholder="请输入推荐CPU"></el-input>
-      </el-form-item>
-      <el-form-item label="推荐内存">
-        <el-input placeholder="请输入推荐内存"></el-input>
-      </el-form-item>
-      <el-form-item label="推荐系统盘">
-        <el-input placeholder="请输入推荐系统盘"></el-input>
-      </el-form-item>
-      <el-form-item label="推荐数据盘">
-        <el-input placeholder="请输入推荐数据盘"></el-input>
-      </el-form-item>
-      <el-form-item label="介绍">
-        <el-input placeholder="请输入镜像介绍"></el-input>
+      <el-form-item label="容器名称">
+        <el-input placeholder="请输入容器名称"></el-input>
       </el-form-item>
     </el-form>
+
     <template #footer>
       <span slot="footer" class="dialog-footer">
         <el-button @click="centerDialogVisible = false">取 消</el-button>
@@ -168,13 +152,20 @@
       </span>
     </template>
   </el-dialog>
+  <!-- 分页 -->
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, reactive, nextTick } from "vue";
-import { reqUserInfo, reqDeleteUser } from "@/api/acl/user/index";
+// 引入接口信息
+import {
+  reqUserInfo,
+  reqDeleteUser,
+  reqAddUpdateUser,
+} from "@/api/acl/user/index";
 import { UserResponseData, Records, User } from "@/api/acl/user/type";
 import { ElMessage } from "element-plus";
+import useLayOutSettingStore from "@/store/modules/setting";
 // 默认页数
 let pageNo = ref(1);
 // 每页显示条数
@@ -189,7 +180,12 @@ let ContainerArr = ref<Records>([]);
 let centerDialogVisible = ref<boolean>(false);
 // 获取form实例对象
 let form = ref<any>(null);
-
+// 搜索用户名称信息
+const usernamekeyword = ref<string>("");
+// 搜索用户昵称信息
+const nicknamekeyword = ref<string>("");
+// 获取用户信息
+let settingStore = useLayOutSettingStore();
 // 挂载
 onMounted(() => {
   getUserInfo();
@@ -200,7 +196,9 @@ const getUserInfo = async (pager = 1) => {
   pageNo.value = pager;
   const result: UserResponseData = await reqUserInfo(
     pageNo.value,
-    pageSize.value
+    pageSize.value,
+    usernamekeyword.value,
+    nicknamekeyword.value
   );
 
   if (result.code === 200) {
@@ -235,9 +233,9 @@ const removeContainer = async (id: number) => {
     });
   }
 };
-
 // 修改用户信息 括号中绑定对象row:类型
 const updateContainer = (row: User) => {
+  // 弹出对话框
   centerDialogVisible.value = true;
   // 修改用户信息时，将当前行的数据赋值给表单
   Object.assign(RoleParam, row);
@@ -263,25 +261,25 @@ const save = async () => {
   // 表单校验通过，才调用接口函数
   await form.value.validate();
   // 添加更新请求
-  // let result = await reqUpdateContainer(RoleParam);
-  // if(result.code == 200){
-  //   ElMessage({
-  //     type: "success",
-  //     message: "修改成功",
-  //   });
-  // 关闭弹窗
-  centerDialogVisible.value = false;
-  // 重新获取数据
-  getUserInfo(pageNo.value);
-  //   }else{
-  //     ElMessage({
-  //       type: "error",
-  //       message: "修改失败",
-  //     });
-  //   }
+  let result = await reqAddUpdateUser(RoleParam);
+  if (result.code == 200) {
+    ElMessage({
+      type: "success",
+      message: "修改成功",
+    });
+    // 关闭弹窗
+    centerDialogVisible.value = false;
+    // 重新获取数据
+    getUserInfo(pageNo.value);
+  } else {
+    ElMessage({
+      type: "error",
+      message: "修改失败",
+    });
+  }
 };
 
-// 添加表达的方法
+// 添加用户的方法
 const addContainer = () => {
   centerDialogVisible.value = true;
   // 清空数据
@@ -293,6 +291,46 @@ const addContainer = () => {
     form.value.clearValidate("roleName");
   });
 };
+
+// 搜索方法
+const search = () => {
+  getUserInfo();
+  // 清空
+  usernamekeyword.value = "";
+  nicknamekeyword.value = "";
+};
+//重置的方法
+const reset = () => {
+  // 获取存储在仓库中的数据
+  settingStore.reflash != settingStore.reflash;
+};
+
+// 终端类型
+
+// 登陆时间
 </script>
 
-<style scoped></style>
+<style scoped>
+.search {
+  margin: 5px 10px;
+  padding: 2px 7px 9px 9px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+  justify-content: space-between;
+  background-color: rgb(193, 208, 246, 0.7);
+}
+
+.table {
+  margin: 12px 10px;
+  padding: 2px 7px 9px 9px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+  justify-content: space-between;
+  border-radius: 20px;
+  background-color: rgb(193, 208, 246, 0.7);
+  .eltable {
+    border-radius: 20px;
+    background-color: rgb(193, 208, 246);
+  }
+}
+</style>

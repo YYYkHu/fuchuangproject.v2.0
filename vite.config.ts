@@ -54,7 +54,7 @@ export default defineConfig(({ command, mode }) => {
           // 获取服务器的地址设置
           target: env.VITE_SERVE,
           // 是否代理跨域
-          changeOrigin: true,
+          changeOrigin: false,
           // 重写路径:去掉路径中开头的/api
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
