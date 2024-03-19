@@ -16,14 +16,12 @@ const props = defineProps({
 const label = ref<HTMLElement | null>(null);
 const childText=ref(props.text)
 const toGray=()=>{
-  console.log("gray")
   if(label.value){
     label.value.classList.remove("choose")
   }
   
 }
 const toColor=()=>{
-  console.log("color")
   if(label.value){
     label.value.classList.add("choose")
   }
@@ -55,5 +53,8 @@ defineExpose({toColor,toGray,childText,choose})
   border-image: linear-gradient(90deg, #f192ef, #7ba3f4) 1;
   background-image:  linear-gradient(90deg, #f192ef, #7ba3f4);
 }
-
+:hover.btn{
+  border-image: linear-gradient(90deg, #f192ef, #7ba3f4) 1;
+  background-image:  linear-gradient(90deg, #f192ef, #7ba3f4);
+}
 </style>

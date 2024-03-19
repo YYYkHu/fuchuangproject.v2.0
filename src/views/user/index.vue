@@ -17,26 +17,29 @@
         <div class="basic-title">基本信息</div>
         <div class="basic-detail" style="color: rgb(96,98,102);" @click="toEdit">
           <div>
-            <div>用户名：<span v-if="!onEdit" class="">{{ userData.username }}</span> <input v-else type="text" :value="userData.username" :style="{}"></div>
-            <div>用户类型：<span>{{ userData.usertype }}</span></div>
+            <div>用户名：<span v-if="!onEdit" class="">{{ userData.username }}</span> <div v-else style="display: inline-block;"><input  type="text" :value="userData.username"><span style="color: #cfbdef; font-size: x-small;margin-left: 3px;">30天内只能修改一次</span></div></div>
+            <div>用户类型：<span>{{ userData.roleName }}</span></div>
             <div>ID:<span>{{ userData.userId }}</span></div>
             <!-- <div>年龄：<span v-if="!onEdit">{{ userData.age }}</span> <input v-else type="text" :value="userData.age"></div> -->
             <div>电话：<span v-if="!onEdit">{{ userData.phone }}</span> <input v-else type="text" v-model="userData.phone"></div>
             <div>邮箱：<span v-if="!onEdit">{{ userData.email }}</span> <input v-else type="text" v-model="userData.email"></div>
             <div>职业：<ColorLabel v-if="!onEdit" :text="userData.occupationName" ref="text"/>
-              <ColorLabel :ref="(el:any) => setOccuRef(el, item.occupationId)"   v-else v-for="item in occupationList" :key="item.occupationId" :text="item.occupationName" />
+              <div v-else  style="display: inline-block;">
+                <ColorLabel :ref="(el:any) => setOccuRef(el, item.occupationId)" @click="choose(item)"  v-for="item in occupationList" :key="item.occupationId" :text="item.occupationName" />
+                <span style="color: #cfbdef; font-size: x-small;margin-left: 3px;">请选择你的职业</span>
+              </div>
             </div>
-            <div>应用场景：<ColorLabel v-if="!onEdit" v-for="areaitem in areaList.filter(e=>e.occupationId===userData.occupationId)" :text="areaitem"/>
-              <ColorLabel :ref="(el:any) => setAreaRef(el, areaitem.personaliseId)" @click="" v-else v-for="areaitem in areaList" :key="areaitem.personaliseId" :text="areaitem.personaliseName" />
+            <div>应用场景：<ColorLabel v-if="!onEdit" v-for="areaitem in areaList.filter(e=>e.occupationId===userData.occupationId+'')" :text="areaitem.personaliseName"/>
+              <ColorLabel style="pointer-events: none;" :ref="(el:any) => setAreaRef(el, areaitem.personaliseId)" @click="" v-else v-for="areaitem in areaList" :key="areaitem.personaliseId" :text="areaitem.personaliseName" />
             </div>
-            <div>常用软件：<ColorLabel v-if="!onEdit" v-for="item in softwareList.filter(e=>e.occupationId===userData.occupationId)" :text="item"/>
-              <ColorLabel :ref="(el:any) => setSoftwareRef(el, item.personaliseId)" @click="" v-else v-for="item in softwareList" :key="item.personaliseId" :text="item.personaliseName" />
+            <div>常用软件：<ColorLabel v-if="!onEdit" v-for="item in softwareList.filter(e=>e.occupationId===userData.occupationId+'')" :text="item.personaliseName"/>
+              <ColorLabel style="pointer-events: none;" :ref="(el:any) => setSoftwareRef(el, item.personaliseId)" @click="" v-else v-for="item in softwareList" :key="item.personaliseId" :text="item.personaliseName" />
             </div>
           </div>
         </div>
         <div v-show="onEdit">
-            <button class="button" @click="Sure">确定</button>
-            <el-button class="button" @click="onEdit = false">取消</el-button>
+            <el-button class="button" @click="Sure">确定</el-button>
+            <el-button class="button" @click="Cancel">取消</el-button>
         </div>
     </div>
   </div>
@@ -70,7 +73,7 @@ let areaList=reactive([
             "personaliseId": 9,
             "personaliseName": "电子游戏",
             "personaliseType": "1",
-            "occupationId": "4"
+            "occupationId": "1"
         },{
             "personaliseId": 11,
             "personaliseName": "家居及厨房用具",
@@ -83,7 +86,7 @@ let areaList=reactive([
             "personaliseId": 9,
             "personaliseName": "电子游戏",
             "personaliseType": "2",
-            "occupationId": "4"
+            "occupationId": "1"
         },{
             "personaliseId": 11,
             "personaliseName": "家居及厨房用具",
@@ -119,33 +122,65 @@ const setSoftwareRef = (el: any,index:number) => {
   }
 }
 const onEdit=ref(false) 
-
-const Sure = () => {
+const onSure=ref(false)
+const Sure = async() => {
+  await validator();
   // 调用修改信息接口
-  onEdit.value = false;
-  console.log(onEdit.value);
+  let result: any = await reqAddUpdateUser(userData);
+  if (result.code === 0) {
+    // 提示消息
+    ElMessage({
+      message: "更新成功",
+      type: "success",
+    });
+    // 重新获取数据
+    getUserInfo();
+    onSure.value=true
+    onEdit.value = false;
+  } else {
+    ElMessage({
+      message: "操作失败",
+      type: "error",
+    });
+  }
 };
-
+const Cancel=()=>{
+  onEdit.value = false;
+  onSure.value=true;
+  getUserInfo();
+}
 // 挂载
 onMounted(() => {
   getUserInfo();
-
-  
 });
-
-const toEdit=()=>{
-      onEdit.value = true;
-      occuRefs.value?.forEach((item: any) => {
+onUpdated(()=>{
+  if(!onSure.value){
+    toEdit();
+  }
+}
+);
+const choose=(i: any)=>{
+  //更改userData的值
+  userData.occupationId=i.occupationId;
+  userData.occupationName=i.occupationName;
+  //重新渲染
+  upDatePersonalise()
+};
+//更新个性化列表
+const upDatePersonalise=()=>{
+  occuRefs.value?.forEach((item: any) => {
+        // item.hover(()=>{
+        //   item.toColor();
+        // })
         if(item.childText===userData.occupationName){
           item.toColor();
         }else{
-          console.log(item.text)
           item.toGray();
         }
       });   
       areaRefs.value?.forEach((item: any) => {
         item.toGray();
-        areaList.filter(e=>e.occupationId===userData.occupationId).forEach(area => {
+        areaList.filter(e=>e.occupationId===userData.occupationId+'').forEach(area => {
           if(item.childText===area.personaliseName){
           item.toColor();
           }
@@ -153,12 +188,17 @@ const toEdit=()=>{
       });   
       softwareRefs.value?.forEach((item: any) => {
         item.toGray();
-        softwareList.filter(e=>e.occupationId===userData.occupationId).forEach(software => {
+        softwareList.filter(e=>e.occupationId===userData.occupationId+'').forEach(software => {
           if(item.childText===software.personaliseName){
           item.toColor();
           }
         });
       });   
+}
+const toEdit=()=>{
+      onSure.value=false
+      onEdit.value = true;
+      upDatePersonalise();
 };
 // 获取用户信息
 const getUserInfo = async () => {
@@ -176,93 +216,29 @@ const getUserInfo = async () => {
     softwareList=personResult.data.records.filter(e=>e.personaliseType==='2')
   }
 };
-// 更新用户信息
-const updateUser = (row: User) => {
-  centerDialogVisible.value = true;
-};
-// 定义确定按钮的事件回调
-const save = async () => {
-  // 点击保存,判断是更新还是添加
-  let result: any = await reqAddUpdateUser(userData);
-  if (result.code === 0) {
-    
-    // 提示消息
-    ElMessage({
-      message: userParams.id ? "更新成功" : "添加成功",
-      type: "success",
-    });
-    // 重新获取数据
-    getUserInfo();
-  } else {
-    ElMessage({
-      message: "操作失败",
-      type: "error",
-    });
-  }
-};
 
 // 校验函数
-const validatorUsername = (rule: any, value: any, callback: any) => {
-  if (value.trim().length >= 5) {
-    callback();
+const validator = () => {
+  if (userData.username.length < 3) {
+    ElMessage({
+      type: "error",
+      message: (new Error("用户名长度至少为3位") as Error).message,
+    });
+  } else if (userData.phone.length !== 11){
+    ElMessage({
+      type: "error",
+      message: (new Error("手机号格式不正确") as Error).message,
+    });
+  }else if (!userData.email.includes('@')){
+    ElMessage({
+      type: "error",
+      message: (new Error("邮箱格式不正确") as Error).message,
+    });
   } else {
-    callback(new Error("用户名长度不能小于5"));
+    return;
   }
 };
-const validatorname = (rule: any, value: any, callback: any) => {
-  if (value.trim().length >= 5) {
-    callback();
-  } else {
-    callback(new Error("用户名长度不能小于5"));
-  }
-};
-const validatorpassword = (rule: any, value: any, callback: any) => {
-  if (value.trim().length >= 5) {
-    callback();
-  } else {
-    callback(new Error("用户名长度不能小于5"));
-  }
-};
+</script>
 
-// 自定义校验规则
-const rules = {
-  username: [
-    {
-      required: true,
-      message: "用户名不能为空",
-      trigger: "blur",
-      validator: validatorUsername,
-    },
-  ],
-  name: [
-    {
-      required: true,
-      message: "姓名不能为空",
-      trigger: "blur",
-      validator: validatorname,
-    },
-  ],
-  password: [
-    {
-      required: true,
-      message: "密码不能为空",
-      trigger: "blur",
-      validator: validatorpassword,
-    },
-  ],
-};
-</script>
-<script lang="ts">
-// import { onUpdated,nextTick } from "vue";
-export default {
-  data(){
-    return{
-      onEdit:false
-    }
-  },
-  methods: {
-    
-}
-}
-</script>
-<style scoped></style>
+<style scoped>
+</style>
