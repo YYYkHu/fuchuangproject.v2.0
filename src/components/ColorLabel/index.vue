@@ -41,6 +41,7 @@ defineExpose({toColor,toGray,childText,choose})
 }
 .btn{
   /* width: 60px; */
+  height: 25px;
   font-size: 8pt;
   border: 3px solid transparent;
   border-image: linear-gradient(90deg, #bebabd, #bcbdbf) 1;

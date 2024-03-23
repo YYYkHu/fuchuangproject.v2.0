@@ -55,7 +55,6 @@
 
 <script lang="ts">
 import "@/views/login/style.css";
-
 // 引入用户相关的仓库
 import useLoginStore from "@/store/modules/user";
 let userStore = useLoginStore();
@@ -63,22 +62,19 @@ let userStore = useLoginStore();
 // 消息提示
 import { ElNotification } from "element-plus";
 // 引入路由
-import { useRouter, useRoute } from "vue-router";
-// 获取路由对象
-let $route = useRoute();
+// import { useRouter, useRoute } from "vue-router";
+// // 获取路由对象
+// let $route = useRoute();
 // 引入获取当前时间的函数``````````````
 import { getTime } from "@/utils/time";
 // 获取路由组件
-let $router = useRouter();
+// let $router = useRouter();
 
 export default {
   data() {
     return {
       loading: false,
-      loginForm: {
-        username: "",
-        password: "",
-      },
+      
       registForm: {
         username: "",
         password: "",
@@ -90,52 +86,7 @@ export default {
     switchPage () {
     this.$refs.cont.classList.toggle('signUp')
   },
-  // 登录功能实现
-  async login () {
-  // 验证表单是否通过验证，如果通过验证，则执行登录操作，否则不执行登录操作。
-  await this.validate();
-  // 开启加载效果
-  this.loading = true;
-  try {
-    // 登陆成功
-    await userStore.userLogin(this.loginForm);
-    // 编程式导航跳转到展示数据首页
-    // 判断是否包含redirect参数，如果包含，则跳转到redirect参数指定的页面，否则跳转到首页
-    let redirect: any = this.$route.query.redirect as string;
-    $router.push({ path: redirect ? redirect : "/" });
-    // 弹出提示信息
-    ElNotification({
-      type: "success",
-      message: "欢迎回来",
-      title: `Hi,${getTime()}`,
-    });
-    // 关闭加载效果
-    this.loading = false;
-  } catch (error) {
-    // 关闭加载效果
-    this.loading = false;
-    //登陆失败的提示信息
-    ElNotification({
-      type: "error",
-      message: (error as Error).message,
-    });
-  }
-},
-validate(){
-  if (this.loginForm.username.length < 3) {
-    ElNotification({
-      type: "error",
-      message: (new Error("用户名长度至少为3位") as Error).message,
-    });
-  } else if (this.loginForm.password.length < 6){
-    ElNotification({
-      type: "error",
-      message: (new Error("密码长度至少为6位") as Error).message,
-    });
-  } else {
-    return;
-  }
-},
+  
 // 注册功能实现
 async regist() {
   // 验证表单是否通过验证，如果通过验证，则执行注册操作，否则不执行注册操作。
@@ -144,7 +95,7 @@ async regist() {
   this.loading = true;
   try {
     // 登陆成功
-    await userStore.userRegist(this.loginForm);
+    await userStore.userRegist(this.registForm);
     // 弹出提示信息
     ElNotification({
       type: "success",
@@ -188,5 +139,75 @@ validateRegist(){
 }
 
 </script>
+<script setup lang="ts"> 
+import { useRouter, RouteLocationNormalizedLoaded  } from 'vue-router';
+import { ref,reactive,onMounted, Ref } from "vue";
 
+const router = useRouter();
+const currentRoute: Ref<RouteLocationNormalizedLoaded | null> = ref(null);
+
+onMounted(() => {
+  currentRoute.value = router.currentRoute.value;
+});
+const loading=ref(false);
+const loginForm=reactive({
+        username: "",
+        password: "",
+      })
+// 登录功能实现
+const login=async ()=> {
+  // 验证表单是否通过验证，如果通过验证，则执行登录操作，否则不执行登录操作。
+  await validate();
+  // 开启加载效果
+  loading.value = true;
+  try {
+    // 登陆成功
+    await userStore.userLogin(loginForm);
+
+    // 编程式导航跳转到展示数据首页
+    // 判断是否包含redirect参数，如果包含，则跳转到redirect参数指定的页面，否则跳转到首页
+    // 监听路由对象的变化
+    const redirect = currentRoute.value?.query.redirect as string | undefined;
+
+  if (router && redirect) {
+    router.push({ path: redirect });
+  } else {
+    router.push({ path: "/" });
+  }
+    // console.log(redirect)
+    console.log("redirect:"+redirect);
+    // 弹出提示信息
+    ElNotification({
+      type: "success",
+      message: "欢迎回来",
+      title: `Hi,${getTime()}`,
+    });
+    // 关闭加载效果
+    loading.value = false;
+  } catch (error) {
+    // 关闭加载效果
+    loading.value = false;
+    //登陆失败的提示信息
+    ElNotification({
+      type: "error",
+      message: (error as Error).message,
+    });
+  }
+}
+const validate=()=>{
+  if (loginForm.username.length < 3) {
+    ElNotification({
+      type: "error",
+      message: (new Error("用户名长度至少为3位") as Error).message,
+    });
+  } else if (loginForm.password.length < 6){
+    ElNotification({
+      type: "error",
+      message: (new Error("密码长度至少为6位") as Error).message,
+    });
+  } else {
+    return;
+  }
+}
+</script>
 <style></style>

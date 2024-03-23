@@ -29,11 +29,14 @@ router.beforeEach(async (to: any, from: any, next: any) => {
   if (token) {
     // 登陆成功,不能访问login
     if (to.path == "/login") {
-      next({ path: "/acl/user" });
+      console.log("home");
+      next({ path: "/home" });
     } else {
       // 登录访问其他路由
       // 用户已经登录
+      console.log("username:"+username);
       if (username) {
+        console.log("next");
         next();
       } else {
         // 没有用户信息,在守卫这里发请求获取到用户信息后放行
@@ -51,10 +54,10 @@ router.beforeEach(async (to: any, from: any, next: any) => {
     }
   } else {
     // 用户未登录
-    if (to.path !== "/login") {
+    if (to.path == "/login") {
       next();
     } else {
-      // next({ path: "/login", query: { redirect: to.path } });
+      next({ path: "/login", query: { redirect: to.path } });
     }
   }
 });

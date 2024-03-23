@@ -47,12 +47,11 @@
 
 <script setup lang="ts">
 import '@/views/user/style.css'
-import { ref, reactive,onMounted, onUpdated,nextTick } from "vue";
+import { ref, reactive,onMounted, onUpdated } from "vue";
 import { reqUserInfo, reqAddUpdateUser, reqPersonalise, reqOccupation } from "@/api/acl/user/index";
 import { UserResponseData,personaliseResponseData,OccupationResponseData,PersonaliseList, Records, User } from "@/api/acl/user/type";
 import { ElMessage } from "element-plus";
-import { info, sassNull } from 'sass';
-import { useData } from 'element-plus/es/components/table-v2/src/composables/use-data.mjs';
+
 let userData=reactive({
   username:"Tom",
   userHead:"" as any,

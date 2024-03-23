@@ -2,7 +2,7 @@
 import { defineStore } from "pinia";
 // 引入接口
 import { reqLogin, reqLogout, reqRegister, } from "@/api/user";
-import { reqUserInfo, reqPersonalise,reqOccupation } from "@/api/acl/user"
+import { reqUserInfo, reqPersonalise, reqOccupation } from "@/api/acl/user"
 // 引入数据类型
 import type {
   loginFormData,
@@ -52,7 +52,7 @@ let useUserStore = defineStore("User", {
         // 返回一个成功的primise
         return "ok";
       } else {
-        return Promise.reject(new Error(result.data));
+        return Promise.reject(new Error(result.msg));
       }
     },
     // 获取用户信息方法
@@ -60,7 +60,8 @@ let useUserStore = defineStore("User", {
       // 获取存储到仓库中
       let result: UserResponseData = await reqUserInfo();
       if (result.code === 0) {
-        this.username = result.data.records.username;
+        console.log(result.data.username);
+        this.username = result.data.username;
         return "ok";
       } else {
         //什么意思呢？
@@ -99,7 +100,7 @@ let useUserStore = defineStore("User", {
       if (result.code === 0) {
         return "ok";
       } else {
-        return Promise.reject(new Error(result.data));
+        return Promise.reject(new Error(result.msg));
       }
     },
     // 退出登陆的方法

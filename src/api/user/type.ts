@@ -60,11 +60,13 @@ export interface ResponseData {
 // 定义登录接口返回类型
 export interface loginResponseData extends ResponseData {
   data: string;
+  msg: string;
 }
 
 // 定义注册接口返回类型
 export interface registerResponseData extends ResponseData {
   data: string;
+  msg: string;
 }
 // 定义获取用户信息返回类型
 export interface userInfoResponseData extends ResponseData {
