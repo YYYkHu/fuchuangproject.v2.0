@@ -36,7 +36,6 @@ router.beforeEach(async (to: any, from: any, next: any) => {
       // 用户已经登录
       console.log("username:"+username);
       if (username) {
-        console.log("next");
         next();
       } else {
         // 没有用户信息,在守卫这里发请求获取到用户信息后放行

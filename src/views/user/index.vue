@@ -48,8 +48,8 @@
 <script setup lang="ts">
 import '@/views/user/style.css'
 import { ref, reactive,onMounted, onUpdated } from "vue";
-import { reqUserInfo, reqAddUpdateUser, reqPersonalise, reqOccupation } from "@/api/acl/user/index";
-import { UserResponseData,personaliseResponseData,OccupationResponseData,PersonaliseList, Records, User } from "@/api/acl/user/type";
+import { reqUserInfo, reqUpdateUser, reqPersonalise, reqOccupation } from "@/api/acl/user/index";
+import { UserResponseData,personaliseResponseData,OccupationResponseData } from "@/api/acl/user/type";
 import { ElMessage } from "element-plus";
 
 let userData=reactive({
@@ -125,7 +125,7 @@ const onSure=ref(false)
 const Sure = async() => {
   await validator();
   // 调用修改信息接口
-  let result: any = await reqAddUpdateUser(userData);
+  let result: any = await reqUpdateUser(userData);
   if (result.code === 0) {
     // 提示消息
     ElMessage({
@@ -203,16 +203,18 @@ const toEdit=()=>{
 const getUserInfo = async () => {
   const result: UserResponseData = await reqUserInfo();
   if (result.code === 0) {
-    userData = result.data.records;
+    console.log(result.data)
+    userData = result.data;
   }
   const occupationResult: OccupationResponseData=await reqOccupation();
   if (occupationResult.code === 0) {
-    occupationList = occupationResult.data.records;
+    console.log(occupationResult.data)
+    occupationList = occupationResult.data;
   }
   const personResult: personaliseResponseData=await reqPersonalise();
   if (personResult.code === 0) {
-    areaList=personResult.data.records.filter(e=>e.personaliseType==='1')
-    softwareList=personResult.data.records.filter(e=>e.personaliseType==='2')
+    areaList=personResult.data.filter(e=>e.personaliseType==='1')
+    softwareList=personResult.data.filter(e=>e.personaliseType==='2')
   }
 };
 
@@ -223,12 +225,12 @@ const validator = () => {
       type: "error",
       message: (new Error("用户名长度至少为3位") as Error).message,
     });
-  } else if (userData.phone.length !== 11){
+  } else if ((userData.phone)&&(/^\d+$/.test(userData.phone))){
     ElMessage({
       type: "error",
       message: (new Error("手机号格式不正确") as Error).message,
     });
-  }else if (!userData.email.includes('@')){
+  }else if (userData.email&&!userData.email.includes('@')){
     ElMessage({
       type: "error",
       message: (new Error("邮箱格式不正确") as Error).message,

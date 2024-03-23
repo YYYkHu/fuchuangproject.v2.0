@@ -60,7 +60,6 @@ let useUserStore = defineStore("User", {
       // 获取存储到仓库中
       let result: UserResponseData = await reqUserInfo();
       if (result.code === 0) {
-        console.log(result.data.username);
         this.username = result.data.username;
         return "ok";
       } else {

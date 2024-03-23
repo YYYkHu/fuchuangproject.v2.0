@@ -10,7 +10,7 @@ enum API {
   // 添加用户信息
   ADDUSER_URL = "/admin/acl/user/save",
   // 更新用户信息
-  UPDATEUSER_URL = "/admin/acl/user/update",
+  UPDATEUSER_URL = "/user/userInfo",
    //获取个性化信息
   PERSONALISE_URL="/user/personaliseList",
    //获取职业信息
@@ -33,7 +33,7 @@ request.get<any, OccupationResponseData>(API.OCCUPATION_URL);
 export const reqDeleteUser = (id: number) =>
   request.delete<any, any>(API.DELETE_URL + id);
 
-// 添加
-export const reqAddUpdateUser = (data: User) => {
-  return request.put<any, User>(API.UPDATEUSER_URL, data);
+// 更新
+export const reqUpdateUser = (data: User) => {
+  return request.post<any, User>(API.UPDATEUSER_URL, data);
 };
